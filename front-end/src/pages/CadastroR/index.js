@@ -1,6 +1,86 @@
-import React from 'react';
+import React, { useState } from 'react';
+import api from '../../api/connection';
+import './styles.css';
+
+const items = [
+    "Chinesa/Japonesa",
+    "FastFood",
+    "Açaí",
+    "Bebidas",
+    "Comida Caseira",
+    "Hamburguers",
+    "Pizza",
+    "Sanduiches",
+    "Italiana",
+    "Sobremesa"
+]
 
 const CadastroR = () => {
+
+    const [ categorias, setCategorias ] = useState([]);
+    const [ formData, setFormData ] = useState({
+        key: 'restaurant',
+        name: '',
+        email: '',
+        password: '',
+        endereco: '',
+    })
+
+    function handleSelect(id){
+
+        console.log(categorias);
+
+        const alreadySelected = categorias.findIndex(item => item === id);
+
+        if (alreadySelected >= 0){
+            const itemFilter = categorias.filter(item => item !== id);
+            setCategorias(itemFilter);
+        }else {
+            setCategorias([...categorias, id]);
+        }
+
+    }
+
+    function handleinput(event){
+        const { name, value } = event.target;
+
+        setFormData({ ...formData, [name] : value});
+
+    }
+
+    function handleSubmit(e) {
+        
+        e.preventDefault();
+
+        if (categorias.length !== 0){
+
+            const { key, name, email, password, endereco } = formData;
+            const data = {
+                key,
+                name,
+                email, 
+                password,
+                endereco,
+                categorias
+            }
+    
+            console.log(data);
+    
+            setFormData({
+                name: '',
+                email: '',
+                password: '',
+                endereco: '',
+            });
+    
+            setCategorias([]);
+
+        }else {
+            alert('Selecione pelo menos uma categoria');
+        }
+
+    }
+
     return (
 
         <div className="geral-box">
@@ -9,12 +89,44 @@ const CadastroR = () => {
 
             <div className="form-box">
 
-                <form className="form">
+                <form className="form" onSubmit={handleSubmit}>
 
-                    <input type="nome" required placeholder="Nome"/>
-                    <input type="Email" required placeholder="Email"/>
-                    <input type="password" required placeholder="Senha" />
-                    <input type="text" required placeholder="Endereço" />
+                    <input 
+                        onChange={handleinput} 
+                        value={formData.name} 
+                        name="name" 
+                        type="nome" required 
+                        placeholder="Nome do estabelecimento"/>
+                    <input 
+                        onChange={handleinput} 
+                        value={formData.email} 
+                        name="email" 
+                        type="Email" required 
+                        placeholder="Email"/>
+                    <input 
+                        onChange={handleinput} 
+                        value={formData.password}
+                        name="password" 
+                        type="password" required 
+                        placeholder="Senha" />
+                    <input 
+                        onChange={handleinput} 
+                        value={formData.endereco} 
+                        name="endereco" 
+                        type="text" required 
+                        placeholder="Endereço" />
+
+                    <p>Categorias</p>
+
+                    <ul>
+                        {items.map(item => (
+                            <li key={items.indexOf(item)}
+                                onClick={() => handleSelect(items.indexOf(item))}
+                                className={categorias.includes(items.indexOf(item))? 'selected': ''} >
+                                {item} 
+                            </li>
+                        ))}
+                    </ul>
 
                     <button type="submit" className="button-form">Cadastrar</button>
                     <a className="sub" href="/login">já tem cadastro? arrocha o nó no login.</a>
