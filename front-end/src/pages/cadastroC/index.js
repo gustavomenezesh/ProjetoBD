@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import React, { useState } from 'react';
 import './styles.css';
 
@@ -69,7 +69,7 @@ const Cadastro = () => {
     //988659605
 
 export default Cadastro;
-=======
+
 import React, { useState } from 'react';
 import './styles.css';
 
@@ -138,4 +138,4 @@ const Cadastro = () => {
     //988659605
 
 export default Cadastro;
->>>>>>> 80c172d1858d0d3cf5dd9233379fdac590c69e1b
+
