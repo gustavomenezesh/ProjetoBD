@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/connection';
 import './styles.css';
+<<<<<<< HEAD
+
+const CadastroR = () => {
+
+    const [ restcateg, setCategorias ] = useState([]);
+    const [ formData, setFormData ] = useState({
+        tipo: 'restaurant',
+        status: false,
+        restname: '',
+        restemail: '',
+        restpass: '',
+        restadress: '',
+=======
 
 const items = [
     "Chinesa/Japonesa",
@@ -24,6 +37,7 @@ const CadastroR = () => {
         email: '',
         password: '',
         endereco: '',
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
     })
 
     const [ items, setItems ] = useState([]);
@@ -37,6 +51,17 @@ const CadastroR = () => {
 
     function handleSelect(id){
 
+<<<<<<< HEAD
+       
+
+        const alreadySelected = restcateg.findIndex(item => item === id);
+
+        if (alreadySelected >= 0){
+            const itemFilter = restcateg.filter(item => item !== id);
+            setCategorias(itemFilter);
+        }else {
+            setCategorias([...restcateg, id]);
+=======
         console.log(categorias);
 
         const alreadySelected = categorias.findIndex(item => item === id);
@@ -46,6 +71,7 @@ const CadastroR = () => {
             setCategorias(itemFilter);
         }else {
             setCategorias([...categorias, id]);
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
         }
 
     }
@@ -57,6 +83,33 @@ const CadastroR = () => {
 
     }
 
+<<<<<<< HEAD
+    async function handleSubmit(e) {
+        
+        e.preventDefault();
+
+        if (restcateg.length !== 0){
+
+            const {tipo, status, restname, restemail, restpass, restadress } = formData;
+            const data = {
+                restname,
+                restemail, 
+                restpass,
+                restadress,
+                restcateg,
+                status,
+                tipo
+            }
+    
+            const cadastro = await api.post('restaurantCreate', data);
+            console.log(cadastro);
+    
+            setFormData({
+                restname: '',
+                restemail: '',
+                restpass: '',
+                restadress: '',
+=======
     function handleSubmit(e) {
         
         e.preventDefault();
@@ -80,6 +133,7 @@ const CadastroR = () => {
                 email: '',
                 password: '',
                 endereco: '',
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
             });
     
             setCategorias([]);
@@ -88,6 +142,11 @@ const CadastroR = () => {
             alert('Selecione pelo menos uma categoria');
         }
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
     }
 
     return (
@@ -102,26 +161,46 @@ const CadastroR = () => {
 
                     <input 
                         onChange={handleinput} 
+<<<<<<< HEAD
+                        value={formData.restname} 
+                        name="restname" 
+=======
                         value={formData.name} 
                         name="name" 
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
                         type="nome" required 
                         placeholder="Nome do estabelecimento"/>
                     <input 
                         onChange={handleinput} 
+<<<<<<< HEAD
+                        value={formData.restemail} 
+                        name="restemail" 
+=======
                         value={formData.email} 
                         name="email" 
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
                         type="Email" required 
                         placeholder="Email"/>
                     <input 
                         onChange={handleinput} 
+<<<<<<< HEAD
+                        value={formData.restpass}
+                        name="restpass" 
+=======
                         value={formData.password}
                         name="password" 
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
                         type="password" required 
                         placeholder="Senha" />
                     <input 
                         onChange={handleinput} 
+<<<<<<< HEAD
+                        value={formData.restadress} 
+                        name="restadress" 
+=======
                         value={formData.endereco} 
                         name="endereco" 
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
                         type="text" required 
                         placeholder="Endereço" />
 
@@ -131,7 +210,11 @@ const CadastroR = () => {
                         {items.map(item => (
                             <li key={item.idcateg}
                                 onClick={() => handleSelect(item.idcateg)}
+<<<<<<< HEAD
+                                className={restcateg.includes(item.idcateg)? 'selected': ''} >
+=======
                                 className={categorias.includes(item.idcateg)? 'selected': ''} >
+>>>>>>> 11d959708a6f100bd0085b01ee5d53bfecefa0e3
                                 {item.namecateg} 
                             </li>
                         ))}

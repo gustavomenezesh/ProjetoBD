@@ -7,7 +7,7 @@ import api from '../../api/connection'
 const Cadastro = () => {
 
     const [ formData, setFormData ] = useState({
-        key: 'client',
+        tipo: 'client',
         clientName: '',
         clientEmail: '',
         clientPass: '',
@@ -26,10 +26,10 @@ const Cadastro = () => {
 
         event.preventDefault();
 
-        const { key, clientName, clientEmail, clientAdress, clientPass} = formData;
+        const { tipo, clientName, clientEmail, clientAdress, clientPass} = formData;
 
         const data = {
-            key,
+            tipo,
             clientName, 
             clientEmail, 
             clientAdress, 
@@ -41,7 +41,7 @@ const Cadastro = () => {
         console.log(client);
         
         setFormData({
-            key: 'client',
+            tipo: 'client',
             clientName: '',
             clientEmail: '',
             clientPass: '',
