@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../../api/connection';
 import './styles.css';
 
@@ -25,6 +25,15 @@ const CadastroR = () => {
         password: '',
         endereco: '',
     })
+
+    const [ items, setItems ] = useState([]);
+
+    useEffect(() => {
+
+        api.get('categorias').then(response => {
+            setItems(response.data);
+        });
+    }, []);
 
     function handleSelect(id){
 
@@ -120,10 +129,10 @@ const CadastroR = () => {
 
                     <ul>
                         {items.map(item => (
-                            <li key={items.indexOf(item)}
-                                onClick={() => handleSelect(items.indexOf(item))}
-                                className={categorias.includes(items.indexOf(item))? 'selected': ''} >
-                                {item} 
+                            <li key={item.idcateg}
+                                onClick={() => handleSelect(item.idcateg)}
+                                className={categorias.includes(item.idcateg)? 'selected': ''} >
+                                {item.namecateg} 
                             </li>
                         ))}
                     </ul>
