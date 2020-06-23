@@ -6,7 +6,7 @@ const restaurantController = require('./Controllers/restaurantController');
 //users
 routes.post('/clientsCreate', clientController.create);
 routes.post('/clientsUpdate', clientController.update);
-routes.get('/login');
+routes.get('/login', clientController.login);
 routes.get('/searchFood');
 routes.get('/searchRest');
 routes.get('/filterByCateg')
@@ -15,7 +15,7 @@ routes.get('/filterOrders');
 
 
 //restaurant
-routes.post('/restaurantCreate');
+routes.post('/restaurantCreate', restaurantController.create);
 routes.post('/foodCreate');
 routes.get('/rel1');
 routes.get('/rel2');

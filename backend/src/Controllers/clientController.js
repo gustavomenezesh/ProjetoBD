@@ -38,5 +38,15 @@ module.exports = {
                 client: {clientEmail, clientAdress, clientPass}
             }
         });
+    },
+
+    async login(req, res){
+        const {clientEmail, clientPass} = req.body;
+        const {rows} = await db.query(
+            'SELECT * FROM clients WHERE clientEmail = $1 AND clientPass = $2',
+            [clientEmail, clientPass]
+        );
+        res.send(rows);
+       
     }
 }
