@@ -17,6 +17,7 @@ routes.get('/filterOrders');
 //restaurant
 routes.post('/restaurantCreate', restaurantController.create);
 routes.post('/foodCreate');
+routes.get('/categorias', restaurantController.categs);
 routes.get('/rel1');
 routes.get('/rel2');
 routes.get('/rel3');

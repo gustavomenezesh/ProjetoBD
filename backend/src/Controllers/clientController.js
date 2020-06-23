@@ -4,11 +4,11 @@ module.exports = {
 
     async create(req, res){
 
-        const {clientName, clientEmail, clientAdress, clientPass} = req.body;
+        const {tipo, clientName, clientEmail, clientAdress, clientPass} = req.body;
 
         const {rows} = await db.query(
-            'INSERT INTO clients (clientName, clientEmail, clientAdress, clientPass) VALUES ($1, $2, $3, $4)',
-            [clientName, clientEmail, clientAdress, clientPass]
+            'INSERT INTO clients (clientName, clientEmail, clientAdress, clientPass, tipo) VALUES ($1, $2, $3, $4, $5)',
+            [clientName, clientEmail, clientAdress, clientPass, tipo]
         );
 
 
@@ -41,12 +41,22 @@ module.exports = {
     },
 
     async login(req, res){
-        const {clientEmail, clientPass} = req.body;
-        const {rows} = await db.query(
-            'SELECT * FROM clients WHERE clientEmail = $1 AND clientPass = $2',
-            [clientEmail, clientPass]
+        
+        const {email, pass} = req.body;
+        
+        let rows = await db.query(
+            'SELECT * FROM clients WHERE clientEmail=$1 AND clientPass=$2',
+            [email, pass]
         );
-        res.send(rows);
+        
+        if(!rows.rows.length){
+            rows = await db.query(
+                'SELECT * FROM restaurants WHERE restemail=$1 AND restpass=$2',
+                [email, pass]
+            );
+        }
+
+        res.send(rows.rows);
        
     }
 }
