@@ -28,3 +28,14 @@ CREATE TABLE restaurant_categ(
     restid int REFERENCES restaurants(restid);
     idcateg int REFERENCES categorias(idcateg);
 );
+
+INSERT INTO categorias (namecateg) VALUES ('chinesa/japonesa');
+INSERT INTO categorias (namecateg) VALUES ('fastfood');
+INSERT INTO categorias (namecateg) VALUES ('bebidas');
+INSERT INTO categorias (namecateg) VALUES ('açaí');
+INSERT INTO categorias (namecateg) VALUES ('comida caseira');
+INSERT INTO categorias (namecateg) VALUES ('sanduiches');
+INSERT INTO categorias (namecateg) VALUES ('hamburguers');
+INSERT INTO categorias (namecateg) VALUES ('pizza');
+INSERT INTO categorias (namecateg) VALUES ('sobremesa');
+INSERT INTO categorias (namecateg) VALUES ('italiana');
