@@ -25,8 +25,8 @@ CREATE TABLE categorias(
 );
 
 CREATE TABLE restaurant_categ(
-    restid int REFERENCES restaurants(restid);
-    idcateg int REFERENCES categorias(idcateg);
+    restid int REFERENCES restaurants(restid),
+    idcateg int REFERENCES categorias(idcateg)
 );
 
 INSERT INTO categorias (namecateg) VALUES ('chinesa/japonesa');
