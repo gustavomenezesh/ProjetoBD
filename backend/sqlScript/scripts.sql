@@ -39,3 +39,11 @@ INSERT INTO categorias (namecateg) VALUES ('hamburguers');
 INSERT INTO categorias (namecateg) VALUES ('pizza');
 INSERT INTO categorias (namecateg) VALUES ('sobremesa');
 INSERT INTO categorias (namecateg) VALUES ('italiana');
+
+CREATE TABLE foods_restaurant(
+    idfood Serial PRIMARY KEY NOT NULL,
+    restid int REFERENCES restaurants(restid),
+    namefood VARCHAR(50) NOT NULL,
+    pricefood FLOAT NOT NULL,
+    descriptionfood VARCHAR NOT NULL
+);
