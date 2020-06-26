@@ -73,7 +73,6 @@ module.exports = {
 
     },
 
-<<<<<<< HEAD
     async index(req, res){
 
         const {rows} = await db.query(
@@ -81,7 +80,9 @@ module.exports = {
         );
 
         res.send(rows);
-=======
+    
+    },
+
     async foodCreate(req, res){
 
         const {restid, namefood, pricefood, descriptionfood} = req.body;
@@ -99,7 +100,7 @@ module.exports = {
 
         res.send(rows);
 
->>>>>>> 7340943d5ad3d2e62cafb4632e109beec3afa806
+
     }
 
 

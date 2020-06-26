@@ -37,17 +37,6 @@ const Profile = () => {
         
     },[])
 
-    console.log(dados.clientid);
-
-    const [ image, setImage ] = useState('');
-
-    function handleSave(e) {
-
-        e.preventDefault();
-
-        setImage(e.target.value);
-    }
-
     return (
         <div className="geral-content">
 
@@ -61,10 +50,6 @@ const Profile = () => {
                 <span className="title">Perfil</span>
 
                 <form className="form">
-
-                    
-                    <img src={image} /> 
-                    <input type="link" onChange={handleSave} />
 
                     <input name="name" type="name" placeholder="Nome" value={dados.clientname}/>
                     <input name="email"type="email" placeholder="Email" value={dados.clientemail}/>
