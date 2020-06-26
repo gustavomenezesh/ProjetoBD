@@ -9,11 +9,11 @@ CREATE TABLE clients(
 );
 
 CREATE TABLE restaurants(
-    restd Serial PRIMARY KEY NOT NULL,
+    restid Serial PRIMARY KEY NOT NULL,
     restname VARCHAR(100) NOT NULL,
     restemail VARCHAR(100) NOT NULL,
     restadress VARCHAR(255) NOT NULL,
-    restass VARCHAR(50) NOT NULL,
+    restpass VARCHAR(50) NOT NULL,
     restcateg VARCHAR(100) NOT NULL,
     status BOOLEAN NOT NULL,
     tipo VARCHAR(15) NOT NULL
@@ -25,8 +25,8 @@ CREATE TABLE categorias(
 );
 
 CREATE TABLE restaurant_categ(
-    restid int REFERENCES restaurants(restid);
-    idcateg int REFERENCES categorias(idcateg);
+    restid int REFERENCES restaurants(restid),
+    idcateg int REFERENCES categorias(idcateg)
 );
 
 INSERT INTO categorias (namecateg) VALUES ('chinesa/japonesa');
@@ -39,3 +39,8 @@ INSERT INTO categorias (namecateg) VALUES ('hamburguers');
 INSERT INTO categorias (namecateg) VALUES ('pizza');
 INSERT INTO categorias (namecateg) VALUES ('sobremesa');
 INSERT INTO categorias (namecateg) VALUES ('italiana');
+
+/*DROP TABLE restaurant_categ;
+DROP TABLE restaurants;
+DROP TABLE clients;
+DROP TABLE categorias;*/

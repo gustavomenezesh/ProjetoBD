@@ -7,7 +7,7 @@ const CadastroR = () => {
     const [ restcateg, setCategorias ] = useState([]);
     const [ formData, setFormData ] = useState({
         tipo: 'restaurant',
-        status: false,
+        status: true,
         restname: '',
         restemail: '',
         restpass: '',
@@ -119,7 +119,7 @@ const CadastroR = () => {
 
                     <p>Categorias</p>
 
-                    <ul>
+                    <ul className="ul">
                         {items.map(item => (
                             <li key={item.idcateg}
                                 onClick={() => handleSelect(item.idcateg)}

@@ -6,17 +6,20 @@ import Login from './pages/login'
 import Cadastroc from './pages/cadastroC';
 import Cadastror from './pages/CadastroR';
 import Option from './pages/Option';
-import User from './pages/user';
+import Path from './api/auth';
+import Profile from './utils/profile/profile';
 
-import { isAuth } from './api/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
+    
 
     <Route {...rest} render={props => (
-        isAuth() ? (
+        localStorage.getItem('isAuth') ? (
             <Component {...props} />
+
         ) : (
             <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+
         )
     )}/>
 )
@@ -32,7 +35,8 @@ const Routes = () => {
                 <Route path="/corr" component={Option} />
                 <Route path="/cadastroc" component={Cadastroc} />
                 <Route path="/cadastror" component={Cadastror} />
-                <PrivateRoute path="/home" component={User} />
+                <Route path="/profile" component={Profile} />
+                <PrivateRoute path="/home" component={Path} />
 
             </Switch>
         </BrowserRouter>

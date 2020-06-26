@@ -58,5 +58,17 @@ module.exports = {
 
         res.send(rows.rows);
        
+    },
+
+    async index(req, res){
+
+        const { id } = req.params;
+
+        const { rows } = await db.query(
+            'SELECT * FROM clients WHERE clientid=$1',
+            [id]
+        );
+
+        res.send(rows);
     }
 }

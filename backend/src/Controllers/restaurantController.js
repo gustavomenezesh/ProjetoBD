@@ -69,9 +69,17 @@ module.exports = {
                 );
             }
         }
-        console.log(idcategs);
 
 
+    },
+
+    async index(req, res){
+
+        const {rows} = await db.query(
+            'SELECT * FROM restaurants', []
+        );
+
+        res.send(rows);
     }
 
 

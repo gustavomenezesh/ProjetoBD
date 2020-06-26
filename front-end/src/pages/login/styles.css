@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-items: center;
 }
 
 .form {
@@ -12,10 +13,11 @@
     justify-content: center;
     background: #F4F4F4;
     border-radius: 29px;
-    width: 400px;
+    width: auto;
     height: auto;
     padding: 30px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    margin-bottom: 200px;
 }
 input {
     width: 100%;
@@ -27,7 +29,7 @@ input + input {
 
 .title {
     color: #19B5FE;
-    font-size: 30px;
+    font-size: 40px;
     text-transform: uppercase;
     margin-bottom: 40px;
 }
