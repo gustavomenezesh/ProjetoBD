@@ -1,0 +1,16 @@
+.button-profile {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.logout {
+    position: absolute;
+    top: 0px;
+    right: 40px;
+    box-shadow: none;
+}
+
+.logout:hover {
+    background: red;
+}
