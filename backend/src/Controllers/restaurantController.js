@@ -73,6 +73,7 @@ module.exports = {
 
     },
 
+<<<<<<< HEAD
     async index(req, res){
 
         const {rows} = await db.query(
@@ -80,6 +81,25 @@ module.exports = {
         );
 
         res.send(rows);
+=======
+    async foodCreate(req, res){
+
+        const {restid, namefood, pricefood, descriptionfood} = req.body;
+        
+        const insert = await db.query(
+            'INSERT INTO foods_restaurant (restid, namefood, pricefood, descriptionfood) VALUES ($1,$2,$3,$4)',
+            [restid, namefood, pricefood, descriptionfood]
+        );
+
+
+        const {rows} = await db.query(
+            'SELECT * FROM foods_restaurant WHERE restid=$1',
+            [restid]
+        );
+
+        res.send(rows);
+
+>>>>>>> 7340943d5ad3d2e62cafb4632e109beec3afa806
     }
 
 
