@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../../api/connection';
-import Navbar from '../../utils/navbar';
+import Navbar from '../../utils/navbar/navbar';
 
 import './styles.css'
 import Cardrest from '../../utils/cards/cardrest';
@@ -32,7 +32,7 @@ const User = () => {
     } ,[]);
 
     useEffect(() => {
-        api.get('/restaurants').then(response => {
+        api.get(`/restaurants`).then(response => {
             setRestaurants(response.data);
         });
 
@@ -50,7 +50,7 @@ const User = () => {
                     <p className="title-second">Categorias</p>
                     <ul className="ulcateg">
                     {categorias.map(item => (
-                            <li key={item.idcateg} className="item">
+                            <li key={item.idcateg} className="item list">
                                 {item.namecateg} 
                             </li>
                         ))}
@@ -61,7 +61,7 @@ const User = () => {
                     <p className="title-second">Restaurantes</p>
                     <ul className="cards">
                         {restaurants.map(restaurant => (
-                            restaurant.status ? ( <Cardrest key={restaurant.restid} data={restaurant} />): null
+                            <Cardrest key={restaurant.restid} data={restaurant} />
                         ))}
                     </ul>
                     

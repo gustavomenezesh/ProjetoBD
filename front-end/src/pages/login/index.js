@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import api from '../../api/connection';
-
-import './styles.css';
 import { useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
+import './styles.css';
+import { CircularProgress } from '@material-ui/core';
 
 
 
 const Login = () => {
 
+    const [ logon, setLogon ] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         pass: ''
@@ -23,9 +25,17 @@ const Login = () => {
 
     const history = useHistory();
 
+    useEffect(() => {
+        const timer =setTimeout(() => {
+            setLogon(false);
+            history.push('/home');
+        },40000)
+    },[logon]);
+
     async function handleAuth(event) {
 
         event.preventDefault();
+        setLogon(true);
 
         const { email, pass } = formData;
 
@@ -54,16 +64,16 @@ const Login = () => {
             }
             localStorage.setItem('id', data[0].clientid);
         }
-
-        history.push('/home');
-
-
+    
     }
 
     return (
+    
         <div className="geral-box">
 
             <span className="title">Login</span>
+
+            {!logon ? (
 
             <div className="login-box">
 
@@ -71,13 +81,15 @@ const Login = () => {
                     <input onChange={handleinput} value={formData.email} name="email" type="email" required placeholder="Email" />
                     <input onChange={handleinput} value={formData.pass} name="pass" type="password" required placeholder="Senha" />
 
-     
+    
                     <button type="submit" className="button-form" >Entrar</button>
                     <a className="sub" href="/corr">Ainda não tem login? Dale no cadastro</a>
                 </form>
 
             </div>
 
+            ) : <CircularProgress />}
+            
         </div>
     );
 }

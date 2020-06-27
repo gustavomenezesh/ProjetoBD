@@ -93,6 +93,7 @@
     font-size: 20px;
     padding: 20px;
     transition: all 0.2s ease-in-out;
+    background: none;
 }
 
 .link:hover {
@@ -158,4 +159,5 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
+
 

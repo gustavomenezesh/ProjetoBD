@@ -61,3 +61,14 @@ input + input {
     font-weight: normal;
     color: #AAAAAA;
 }
+
+.load {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 29px;
+}
