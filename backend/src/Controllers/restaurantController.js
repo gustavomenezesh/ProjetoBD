@@ -8,8 +8,8 @@ module.exports = {
         
 
         let {rows} = await db.query(
-            'INSERT INTO restaurants (restname, restemail, restadress, restpass, restcateg, status, tipo, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-            [restname, restemail, restadress, restpass, restcateg, status, tipo, image]
+            'INSERT INTO restaurants (restname, restemail, restadress, restpass, restcateg, status, tipo) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+            [restname, restemail, restadress, restpass, restcateg, status, tipo]
         );
 
         rows = await db.query(
@@ -54,11 +54,24 @@ module.exports = {
         );
 
         res.send(rows);
+    
+    },
+
+    async foodCreate(req, res){
+
+        const {restid, namefood, pricefood, descriptionfood} = req.body;
+        
+        const insert = await db.query(
+            'INSERT INTO foods_restaurant (restid, namefood, pricefood, descriptionfood) VALUES ($1,$2,$3,$4)',
+            [restid, namefood, pricefood, descriptionfood]
+        );
     },
 
     async searchBycateg(req, res){
-        const {id} = req.body;
+        const { id } = req.params;
         const datas = []
+
+        console.log('id back:'+ id);
 
         const {rows} = await db.query(
             'SELECT * FROM restaurant_categ WHERE idcateg=$1',

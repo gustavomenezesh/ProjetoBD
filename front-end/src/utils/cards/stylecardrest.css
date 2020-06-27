@@ -40,7 +40,7 @@ span {
 }
 
 .frete {
-    position: relative;
+    position: static;
     bottom: auto;
     left: auto;
     color: #1BE017;

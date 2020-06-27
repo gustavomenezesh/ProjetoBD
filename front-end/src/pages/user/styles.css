@@ -93,6 +93,7 @@
     font-size: 20px;
     padding: 20px;
     transition: all 0.2s ease-in-out;
+    background: none;
 }
 
 .link:hover {
@@ -117,6 +118,8 @@
     font-size: 24px;
     font-weight: bold;
     margin: 10px;
+    padding: 10px;
+    text-transform: uppercase;
 }
 
 .ulcateg {
@@ -158,4 +161,22 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
+
+.filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter .title-second {
+
+    text-transform: uppercase;
+}
+
+.filter button {
+    position: relative;
+    right: auto;
+    margin: 10px;
+}
+
 

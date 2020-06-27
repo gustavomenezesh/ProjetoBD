@@ -123,7 +123,7 @@ const CadastroR = () => {
                         {items.map(item => (
                             <li key={item.idcateg}
                                 onClick={() => handleSelect(item.idcateg)}
-                                className={restcateg.includes(item.idcateg)? 'selected': ''} >
+                                className={restcateg.includes(item.idcateg)? 'list selected': 'list'} >
                                 {item.namecateg} 
                             </li>
                         ))}

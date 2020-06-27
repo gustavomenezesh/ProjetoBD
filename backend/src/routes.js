@@ -23,7 +23,7 @@ routes.post('/restaurantCreate', restaurantController.create);
 routes.post('/foodCreate');
 routes.get('/restaurants', restaurantController.index);
 routes.get('/categorias', restaurantController.categs);
-routes.get('/restByCateg', restaurantController.searchBycateg);
+routes.get('/restaurants/:id', restaurantController.searchBycateg);
 routes.get('/rel1');
 routes.get('/rel2');
 routes.get('/rel3');

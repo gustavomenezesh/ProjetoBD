@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../../api/connection';
-import Navbar from '../navbar';
+import Navbar from '../navbar/navbar';
 
 import './styles.css';
 
 const Profile = () => {
 
-    const history = useHistory();
-
-    function handleLogout(e){
-        e.preventDefault();
-
-        localStorage.removeItem('type');
-        localStorage.removeItem('isAuth');
-        localStorage.removeItem('id');
-
-        history.push('/');
-    }
-
-    const [ formData, setFormData ] = useState({
-        name: '',
-        email: '',
-        password: '',
-        endereco: ''
-    })
+    
 
     const [ dados, setData ] = useState([])
-
+    
     useEffect(() => {
 
         
@@ -37,16 +20,15 @@ const Profile = () => {
         
     },[])
 
-    console.log(dados.clientid);
+    const { clientname, clientemail, clientpass, clientadress } = dados;
 
-    const [ image, setImage ] = useState('');
+    const [ alterData, setAlterData ] = useState({
+        name: clientname,
+        email: clientemail,
+        pass: clientpass,
+        adress: clientadress
+    })
 
-    function handleSave(e) {
-
-        e.preventDefault();
-
-        setImage(e.target.value);
-    }
 
     return (
         <div className="geral-content">
@@ -55,21 +37,14 @@ const Profile = () => {
 
             <div className="contents">
 
-
-                <button type="button" className="button-form logout" onClick={handleLogout}>Sair</button>
-
                 <span className="title">Perfil</span>
 
                 <form className="form">
 
-                    
-                    <img src={image} /> 
-                    <input type="link" onChange={handleSave} />
-
-                    <input name="name" type="name" placeholder="Nome" value={dados.clientname}/>
-                    <input name="email"type="email" placeholder="Email" value={dados.clientemail}/>
-                    <input name="password" type="text" placeholder="Senha" value={dados.clientpass}/>
-                    <input name="endereco" type="text" placeholder="Endereço" value={dados.clientadress}/>
+                    <input name="name" type="name" placeholder="Nome" value={alterData.name}/>
+                    <input name="email"type="email" placeholder="Email" value={alterData.email}/>
+                    <input name="password" type="text" placeholder="Senha" value={alterData.pass}/>
+                    <input name="endereco" type="text" placeholder="Endereço" value={alterData.adress}/>
 
                     <button type="submit" className="button-form">Salvar Alterações</button>
 
