@@ -3,13 +3,13 @@ const db = require('../db/db_connection');
 module.exports = {
 
     async create(req, res){
-        const {restname, restemail, restadress, restpass, restcateg, status, tipo} = req.body;
+        const {restname, restemail, restadress, restpass, restcateg, status, tipo, image} = req.body;
         //restCateg.toString();
         
 
         let {rows} = await db.query(
-            'INSERT INTO restaurants (restname, restemail, restadress, restpass, restcateg, status, tipo) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-            [restname, restemail, restadress, restpass, restcateg, status, tipo]
+            'INSERT INTO restaurants (restname, restemail, restadress, restpass, restcateg, status, tipo, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+            [restname, restemail, restadress, restpass, restcateg, status, tipo, image]
         );
 
         rows = await db.query(
@@ -46,34 +46,7 @@ module.exports = {
         res.send(rows);
     },
 
-    async makeTableCateg(){
-        const {rows} = await db.query(
-            'SELECT * FROM restaurants',[]
-        );
 
-        const idcategs = [];
-        for(let j = 0; j < rows.length; j++){
-        
-            const categs = rows[j].restcateg.split('"');
-            
-            for(let i = 0; i < categs.length; i++){
-                if(categs[i] !== '{' && categs[i] !== ',' && categs[i] !== '}'){
-                    idcategs.push(Number(categs[i]));
-                }
-            }
-            
-            for(let k = 0; k < idcategs.length; k++){
-                const insert = await db.query(
-                    'INSERT INTO restaurant_categ (restid, idcateg) VALUES ($1, $2)',
-                    [rows[j].restid, idcategs[k]]
-                );
-            }
-        }
-
-
-    },
-
-<<<<<<< HEAD
     async index(req, res){
 
         const {rows} = await db.query(
@@ -81,25 +54,26 @@ module.exports = {
         );
 
         res.send(rows);
-=======
-    async foodCreate(req, res){
+    },
 
-        const {restid, namefood, pricefood, descriptionfood} = req.body;
-        
-        const insert = await db.query(
-            'INSERT INTO foods_restaurant (restid, namefood, pricefood, descriptionfood) VALUES ($1,$2,$3,$4)',
-            [restid, namefood, pricefood, descriptionfood]
-        );
-
+    async searchBycateg(req, res){
+        const {id} = req.body;
+        const datas = []
 
         const {rows} = await db.query(
-            'SELECT * FROM foods_restaurant WHERE restid=$1',
-            [restid]
+            'SELECT * FROM restaurant_categ WHERE idcateg=$1',
+            [id]
         );
 
-        res.send(rows);
-
->>>>>>> 7340943d5ad3d2e62cafb4632e109beec3afa806
+        for(let i = 0; i < rows.length; i++){
+            const obj = await db.query(
+                'SELECT * FROM restaurants WHERE restid=$1',
+                [rows[i].restid]
+            );
+            datas.push(obj.rows[0]);
+        }
+        res.send(datas);
+            
     }
 
 
