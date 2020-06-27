@@ -118,6 +118,8 @@
     font-size: 24px;
     font-weight: bold;
     margin: 10px;
+    padding: 10px;
+    text-transform: uppercase;
 }
 
 .ulcateg {
@@ -158,6 +160,23 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter .title-second {
+
+    text-transform: uppercase;
+}
+
+.filter button {
+    position: relative;
+    right: auto;
+    margin: 10px;
 }
 
 

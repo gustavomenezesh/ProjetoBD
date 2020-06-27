@@ -8,8 +8,8 @@ module.exports = {
         
 
         let {rows} = await db.query(
-            'INSERT INTO restaurants (restname, restemail, restadress, restpass, restcateg, status, tipo, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-            [restname, restemail, restadress, restpass, restcateg, status, tipo, image]
+            'INSERT INTO restaurants (restname, restemail, restadress, restpass, restcateg, status, tipo) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+            [restname, restemail, restadress, restpass, restcateg, status, tipo]
         );
 
         rows = await db.query(
@@ -54,7 +54,6 @@ module.exports = {
         );
 
         res.send(rows);
-<<<<<<< HEAD
     
     },
 
@@ -66,24 +65,19 @@ module.exports = {
             'INSERT INTO foods_restaurant (restid, namefood, pricefood, descriptionfood) VALUES ($1,$2,$3,$4)',
             [restid, namefood, pricefood, descriptionfood]
         );
-=======
     },
->>>>>>> 6a7b1c1bb38d10a81a2626a77c5a061041e3e1d5
 
     async searchBycateg(req, res){
-        const {id} = req.body;
+        const { id } = req.params;
         const datas = []
+
+        console.log('id back:'+ id);
 
         const {rows} = await db.query(
             'SELECT * FROM restaurant_categ WHERE idcateg=$1',
             [id]
         );
 
-<<<<<<< HEAD
-        res.send(rows);
-
-
-=======
         for(let i = 0; i < rows.length; i++){
             const obj = await db.query(
                 'SELECT * FROM restaurants WHERE restid=$1',
@@ -93,7 +87,6 @@ module.exports = {
         }
         res.send(datas);
             
->>>>>>> 6a7b1c1bb38d10a81a2626a77c5a061041e3e1d5
     }
 
 

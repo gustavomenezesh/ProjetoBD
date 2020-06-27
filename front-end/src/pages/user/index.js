@@ -22,6 +22,8 @@ const User = () => {
 
     const [ categorias, setCategorias ] = useState([]);
     const [ restaurants, setRestaurants ] = useState([]);
+    const [ id, setId ] = useState(null);
+    const [ filter, setFilter ] = useState(true);
 
     useEffect(() =>{
 
@@ -29,15 +31,45 @@ const User = () => {
             setCategorias(response.data);
         });
 
-    } ,[]);
+    } ,[id]);
+
 
     useEffect(() => {
-        api.get(`/restaurants`).then(response => {
+        api.get('restaurants').then(response => {
+            setRestaurants(response.data);
+        });
+    }, [filter])
+
+
+    async function handleFilterRest( id ) {
+
+        setId(id);
+
+        await api.get(`restaurants/${id}`).then(response => {
             setRestaurants(response.data);
         });
 
-        console.log(restaurants);
-    }, [])
+    }
+
+    useEffect(() => {
+
+        if (restaurants.length === 0){
+            setFilter(false);
+        }else{
+            setFilter(true);
+        }
+    }, [restaurants]);
+
+    function handleClearFilter(e) {
+        e.preventDefault();
+
+        setId(null);
+        setFilter(true);
+
+        api.get('restaurants').then(response => {
+            setRestaurants(response.data);
+        });
+    }
 
 
     return (
@@ -50,7 +82,7 @@ const User = () => {
                     <p className="title-second">Categorias</p>
                     <ul className="ulcateg">
                     {categorias.map(item => (
-                            <li key={item.idcateg} className="item list">
+                            <li key={item.idcateg} className="item list" onClick={() => handleFilterRest(item.idcateg)}>
                                 {item.namecateg} 
                             </li>
                         ))}
@@ -58,12 +90,22 @@ const User = () => {
                 </div>
                 
                 <div className="restaurants">
-                    <p className="title-second">Restaurantes</p>
-                    <ul className="cards">
-                        {restaurants.map(restaurant => (
-                            <Cardrest key={restaurant.restid} data={restaurant} />
-                        ))}
-                    </ul>
+                    {id === null ? (<p className="title-second">Restaurantes</p>) : ( 
+                        <div className="filter">
+                            <p className="title-second">
+                                {categorias[id-1] !== undefined ? categorias[id-1].namecateg : ''}
+                            </p>
+                            <button className="button-form" onClick={handleClearFilter}>
+                                Remover filtro
+                            </button>
+                        </div>)}
+                    {filter ? (
+                        <ul className="cards">
+                            {restaurants.map(restaurant => (
+                                <Cardrest key={restaurant.restid} data={restaurant} />
+                            ))}
+                        </ul>
+                    ) : <span> Não há restaurantes cadastrados nessa categoria.</span> }
                     
                 </div>
 
