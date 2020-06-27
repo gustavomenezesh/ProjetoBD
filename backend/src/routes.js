@@ -2,6 +2,7 @@ const {Router} = require('express');
 const clientController = require('./Controllers/clientController');
 const routes = Router();
 const restaurantController = require('./Controllers/restaurantController');
+const foodController = require('./Controllers/foodController')
 
 
 
@@ -19,16 +20,19 @@ routes.get('/clients/:id', clientController.index);
 
 //restaurant
 routes.post('/restaurantCreate', restaurantController.create);
-<<<<<<< HEAD
 routes.post('/foodCreate');
 routes.get('/restaurants', restaurantController.index);
-=======
-routes.post('/foodCreate', restaurantController.foodCreate);
->>>>>>> 7340943d5ad3d2e62cafb4632e109beec3afa806
 routes.get('/categorias', restaurantController.categs);
+routes.get('/restByCateg', restaurantController.searchBycateg);
 routes.get('/rel1');
 routes.get('/rel2');
 routes.get('/rel3');
+
+//foods
+routes.post('/foodCreate', foodController.foodCreate);
+routes.post('/foodUpdate', foodController.updateFood);
+routes.delete('/foodDelete', foodController.deleteFood);
+
 
 //restaurantController.makeTableCateg();
 

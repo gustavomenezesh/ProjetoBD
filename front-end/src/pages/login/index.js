@@ -45,7 +45,7 @@ const Login = () => {
 
         console.log(data[0]);
 
-        if (data !== []){
+        if (data[0] !== []){
             localStorage.setItem('isAuth', true);
             localStorage.setItem('type', data[0].tipo);
 
