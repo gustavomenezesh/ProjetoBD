@@ -105,7 +105,7 @@ module.exports = {
         
         res.send(rows);
 
-    },
+    }
 
     
 }
