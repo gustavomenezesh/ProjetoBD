@@ -62,5 +62,18 @@ module.exports = {
 
         res.send(rows);
 
+    },
+
+    async menu(req, res){
+
+        const {id} = req.query;
+        
+        const {rows} = await db.query(
+            'SELECT * FROM foods_restaurant WHERE restid = $1',
+            [id]
+        );
+
+        res.send(rows);
+
     }
 }

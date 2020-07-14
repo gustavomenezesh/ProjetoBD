@@ -30,6 +30,7 @@ routes.post('/foodCreate', foodController.foodCreate);
 routes.post('/foodUpdate', foodController.updateFood);
 routes.delete('/foodDelete', foodController.deleteFood);
 routes.get('/searchFood', foodController.searchFood);
+routes.get('/menu')
 
 
 //restaurantController.makeTableCateg();

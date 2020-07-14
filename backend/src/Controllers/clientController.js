@@ -102,8 +102,8 @@ module.exports = {
             'SELECT * FROM pedido WHERE client=$1',
             [id]
         );
-        console.log(rows[4].idfoods.toString().split(','));
-        res.send(rows[4].idfoods.toString().split(','));
+        
+        res.send(rows);
 
     },
 
