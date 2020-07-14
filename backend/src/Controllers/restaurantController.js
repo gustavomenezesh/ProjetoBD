@@ -3,24 +3,24 @@ const db = require('../db/db_connection');
 module.exports = {
 
     async create(req, res){
-        const {restname, restemail, restadress, restpass, restcateg, status, tipo, image} = req.body;
+        const {name, email, adress, pass, categ, status, tipo, image, entrega} = req.body;
         //restCateg.toString();
         
 
         let {rows} = await db.query(
-            'INSERT INTO restaurants (restname, restemail, restadress, restpass, restcateg, status, tipo) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-            [restname, restemail, restadress, restpass, restcateg, status, tipo]
+            'INSERT INTO restaurants (name, email, adress,pass, categ, status, tipo, entrega) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+            [name, email, adress, pass, categ, status, tipo, image, entrega]
         );
 
         rows = await db.query(
-            'SELECT * FROM restaurants WHERE restemail=$1 AND restpass=$2',
-            [restemail, restpass]
+            'SELECT * FROM restaurants WHERE email=$1 AND pass=$2',
+            [email, pass]
         );
 
-        const restid = rows.rows[0].restid;
-        console.log(restid);
+        const restid = rows.rows[0].id;
+        console.log(id);
 
-        const string_categ = restcateg.toString();
+        const string_categ = categ.toString();
         
         const categs = string_categ.split(',');
             
@@ -57,15 +57,6 @@ module.exports = {
     
     },
 
-    async foodCreate(req, res){
-
-        const {restid, namefood, pricefood, descriptionfood} = req.body;
-        
-        const insert = await db.query(
-            'INSERT INTO foods_restaurant (restid, namefood, pricefood, descriptionfood) VALUES ($1,$2,$3,$4)',
-            [restid, namefood, pricefood, descriptionfood]
-        );
-    },
 
     async searchBycateg(req, res){
         const { id } = req.params;
@@ -80,13 +71,26 @@ module.exports = {
 
         for(let i = 0; i < rows.length; i++){
             const obj = await db.query(
-                'SELECT * FROM restaurants WHERE restid=$1',
-                [rows[i].restid]
+                'SELECT * FROM restaurants WHERE id=$1 AND status=$2',
+                [rows[i].id, true]
             );
             datas.push(obj.rows[0]);
         }
         res.send(datas);
             
+    },
+
+    async searchByName(req, res){
+
+        const {name} = req.query;
+        
+        const {rows} = await db.query(
+            'SELECT * FROM restaurants WHERE name LIKE $1 AND status = $2',
+            [`%${name}%`, true]
+        );
+
+        res.send(rows);
+
     }
 
 

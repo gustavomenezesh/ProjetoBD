@@ -4,11 +4,11 @@ module.exports = {
 
     async foodCreate(req, res){
 
-        const {restid, namefood, pricefood, descriptionfood, image} = req.body;
+        const {restid, name, price, description, image} = req.body;
         
         const insert = await db.query(
-            'INSERT INTO foods_restaurant (restid, namefood, pricefood, descriptionfood, image) VALUES ($1,$2,$3,$4,$5)',
-            [restid, namefood, pricefood, descriptionfood, image]
+            'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
+            [restid, name, price, description, image]
         );
 
 
@@ -27,12 +27,12 @@ module.exports = {
         const {id, price} = req.body;
 
         let {rows} = await db.query(
-            'UPDATE foods_restaurant SET pricefood=$1 WHERE idfood=$2',
+            'UPDATE foods_restaurant SET price=$1 WHERE id=$2',
             [price, id]
         );
 
         rows = await db.query(
-            'SELECT * FROM foods_restaurant WHERE idfood=$1',
+            'SELECT * FROM foods_restaurant WHERE id=$1',
             [id]
         );
 
@@ -44,7 +44,7 @@ module.exports = {
         const {id} = req.body;
 
         const {rows} = await db.query(
-            'DELETE FROM foods_restaurant WHERE idfood=$1',
+            'DELETE FROM foods_restaurant WHERE id=$1',
             [id]
         );
 
