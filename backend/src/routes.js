@@ -12,7 +12,6 @@ routes.post('/clientsUpdate', clientController.update);
 routes.post('/login', clientController.login);
 routes.post('/doOrder', clientController.do_order);
 routes.get('/filterOrders', clientController.filterOrders);
-routes.get('/clients/:id', clientController.index);
 
 
 
@@ -30,7 +29,7 @@ routes.get('/rel3');
 routes.post('/foodCreate', foodController.foodCreate);
 routes.post('/foodUpdate', foodController.updateFood);
 routes.delete('/foodDelete', foodController.deleteFood);
-routes.get('/searchFood');
+routes.get('/searchFood', foodController.searchFood);
 
 
 //restaurantController.makeTableCateg();

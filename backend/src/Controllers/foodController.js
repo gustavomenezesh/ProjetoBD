@@ -49,5 +49,18 @@ module.exports = {
         );
 
         res.send(rows);
+    },
+
+    async searchFood(req, res){
+        
+        const {name} = req.query;
+        console.log(name);
+        const {rows} = await db.query(
+            'SELECT * FROM foods_restaurant WHERE name LIKE $1',
+            [`%${name}%`]
+        );
+
+        res.send(rows);
+
     }
 }

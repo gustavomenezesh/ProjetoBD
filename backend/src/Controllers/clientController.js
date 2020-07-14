@@ -73,28 +73,18 @@ module.exports = {
        
     },
 
-    async index(req, res){
-
-        const { id } = req.params;
-
-        const { rows } = await db.query(
-            'SELECT * FROM clients WHERE id=$1',
-            [id]
-        );
-
-        res.send(rows);
-    },
-
     async do_order(req, res){
 
         const {idclient, idfoods, value} = req.body;
+        
+        console.log(idfoods.toString());
 
         const date = new Date();
 
         try{
             let {rows} = await db.query(
                 'INSERT INTO pedido (idfoods, value, client, data_pedido) VALUES ($1, $2, $3, $4)',
-                [idfoods, value, idclient, date]
+                [idfoods.toString(), value, idclient, date]
             );
         }catch(e){
             console.log(e.detail);
@@ -112,8 +102,10 @@ module.exports = {
             'SELECT * FROM pedido WHERE client=$1',
             [id]
         );
-        
-        res.send(rows);
+        console.log(rows[4].idfoods.toString().split(','));
+        res.send(rows[4].idfoods.toString().split(','));
 
-    }
+    },
+
+    
 }
