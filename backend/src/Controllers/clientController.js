@@ -102,8 +102,12 @@ module.exports = {
             'SELECT * FROM pedido WHERE client=$1',
             [id]
         );
+     
+        const sortedOrders = rows.sort((a, b)=>{
+            return b.data_pedido - a.data_pedido
+        })
         
-        res.send(rows);
+        res.send(sortedOrders);
 
     }
 

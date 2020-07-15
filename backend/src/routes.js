@@ -18,7 +18,8 @@ routes.get('/filterOrders', clientController.filterOrders);
 //restaurant
 routes.post('/restaurantCreate', restaurantController.create);
 routes.get('/restaurants', restaurantController.index);
-routes.get('/categorias', restaurantController.categs);
+routes.get('/delivery', restaurantController.delivery);
+routes.get('/populars', restaurantController.popular);
 routes.get('/restaurants/:id', restaurantController.searchBycateg);
 routes.get('/restaurantsByName', restaurantController.searchByName);
 routes.get('/rel1');
@@ -30,7 +31,7 @@ routes.post('/foodCreate', foodController.foodCreate);
 routes.post('/foodUpdate', foodController.updateFood);
 routes.delete('/foodDelete', foodController.deleteFood);
 routes.get('/searchFood', foodController.searchFood);
-routes.get('/menu')
+routes.get('/menu', foodController.menu);
 
 
 //restaurantController.makeTableCateg();

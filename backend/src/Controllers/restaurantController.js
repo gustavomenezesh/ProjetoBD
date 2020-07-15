@@ -91,6 +91,50 @@ module.exports = {
 
         res.send(rows);
 
+    },
+
+    async delivery(req, res){
+
+        const {type} = req.query;
+
+        const {rows} = await db.query(
+            'SELECT * FROM restaurants WHERE entrega=$1',
+            [type]
+        );
+
+        res.send(rows);
+
+    },
+
+    async popular(req, res){
+
+        const populars = [];
+
+        const rests = await db.query(
+            'SELECT * FROM restaurants WHERE status=$1',
+            [true]
+        );
+
+        for(let i = 0; i < rests.rows.length; i++){
+
+            const foods = await db.query(
+                'SELECT price FROM foods_restaurant WHERE restid=$1',
+                [rests.rows[i].id]
+            );
+
+            let qnt = 0;
+
+            for(let j = 0; j < foods.rows.length; j++)
+                if(foods.rows[j].price > 10)
+                    qnt++;
+                
+            if(!qnt)
+                populars.push(rests.rows[i]);
+            
+        }
+
+        res.send(populars);
+
     }
 
 
