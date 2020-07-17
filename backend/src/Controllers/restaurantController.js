@@ -135,6 +135,113 @@ module.exports = {
 
         res.send(populars);
 
+    },
+
+    async maisPedidos(req, res){
+
+        let maisPedidos = [];
+
+        const now = new Date();
+        const yest = new Date(now - 86400000);
+        
+        
+        const pedidos = await db.query(
+            'SELECT * FROM pedido',
+            []
+        );
+        
+        for(let i = 0; i < pedidos.rows.length; i++){
+
+            pedidos.rows[i].idfoods = JSON.parse(pedidos.rows[i].idfoods);
+
+            for(let j = 0; j < pedidos.rows[i].idfoods.length; j = j + 2){
+
+                let k = 0;
+                while(k < maisPedidos.length){
+                    
+                    if(pedidos.rows[i].idfoods[j] === maisPedidos[k][0]){
+                        maisPedidos[k][1] += pedidos.rows[i].idfoods[j+1];
+                        break;
+                    }
+                    k++;
+
+                }
+
+                if(k === maisPedidos.length)
+                    maisPedidos.push([pedidos.rows[i].idfoods[j], pedidos.rows[i].idfoods[j+1]]);
+
+            }
+
+        }
+
+        maisPedidos = maisPedidos.sort((a, b)=>{
+            return b[1] - a[1]
+        });
+
+        console.log(maisPedidos);
+        
+        const foods = await db.query(
+            'SELECT * FROM foods_restaurant WHERE id=$1 OR id=$2 OR id=$3 OR id=$4 OR id=$5',
+            [maisPedidos[0][0], maisPedidos[1][0], maisPedidos[2][0], maisPedidos[3][0], maisPedidos[4][0]]
+        );
+
+        console.log(foods.rows)
+        
+        const rests = await db.query(
+            'SELECT * FROM restaurants WHERE id=$1 OR id=$2 OR id=$3 OR id=$4 OR id=$5',
+            [foods.rows[0].restid, foods.rows[1].restid, foods.rows[2].restid, foods.rows[3].restid, foods.rows[4].restid]
+        );
+        console.log(rests.rows)
+        res.send(rests.rows);
+
+    },
+
+    async rel1(req, res){
+
+        const {id} = req.query; 
+
+        let maisPedidos = [];
+
+        const pedidos = await db.query(
+            'SELECT * FROM pedido WHERE restid=$1',
+            [id]
+        );
+
+        for(let i = 0; i < pedidos.rows.length; i++){
+
+            pedidos.rows[i].idfoods = JSON.parse(pedidos.rows[i].idfoods);
+
+            for(let j = 0; j < pedidos.rows[i].idfoods.length; j = j + 2){
+
+                let k = 0;
+                while(k < maisPedidos.length){
+                    
+                    if(pedidos.rows[i].idfoods[j] === maisPedidos[k][0]){
+                        maisPedidos[k][1] += pedidos.rows[i].idfoods[j+1];
+                        break;
+                    }
+                    k++;
+
+                }
+
+                if(k === maisPedidos.length)
+                    maisPedidos.push([pedidos.rows[i].idfoods[j], pedidos.rows[i].idfoods[j+1]]);
+
+            }
+
+        }
+
+        maisPedidos = maisPedidos.sort((a, b)=>{
+            return b[1] - a[1]
+        });
+
+        const food = await db.query(
+            'SELECT * FROM foods_restaurant WHERE id=$1',
+            [maisPedidos[0][0]]
+        );
+
+        res.send({food: food.rows, qnt: maisPedidos[0][1]});
+
     }
 
 

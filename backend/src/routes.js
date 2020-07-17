@@ -20,9 +20,10 @@ routes.post('/restaurantCreate', restaurantController.create);
 routes.get('/restaurants', restaurantController.index);
 routes.get('/delivery', restaurantController.delivery);
 routes.get('/populars', restaurantController.popular);
+routes.get('/maisPedidos', restaurantController.maisPedidos);
 routes.get('/restaurants/:id', restaurantController.searchBycateg);
 routes.get('/restaurantsByName', restaurantController.searchByName);
-routes.get('/rel1');
+routes.get('/rel1', restaurantController.rel1);
 routes.get('/rel2');
 routes.get('/rel3');
 
