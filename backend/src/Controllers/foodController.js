@@ -26,17 +26,56 @@ module.exports = {
 
         const {id, price} = req.body;
 
-        let {rows} = await db.query(
-            'UPDATE foods_restaurant SET price=$1 WHERE id=$2',
-            [price, id]
-        );
+        const now = new Date();
 
-        rows = await db.query(
-            'SELECT * FROM foods_restaurant WHERE id=$1',
-            [id]
-        );
+        try{
+        
+            let {rows} = await db.query(
+                'SELECT * FROM foods_restaurant WHERE id=$1',
+                [id]
+            );
+            
+            function roundToXDigits(value, digits) {
+                if(!digits){
+                    digits = 2;
+                }
+                value = value * Math.pow(10, digits);
+                value = Math.round(value);
+                value = value / Math.pow(10, digits);
+                return value;
+            }
 
-        res.send(rows.rows)
+            //console.log(rows);
+            let percent = 100 - 100*price/rows[0].price;
+            percent = roundToXDigits(percent, 1);
+            console.log(percent);
+
+            
+            const desc1 = await db.query(
+                'SELECT * FROM desconto WHERE food=$1',
+                 [id]
+            );
+            
+        
+            if(desc1.rows.length){
+                rows = await db.query(
+                    'UPDATE desconto SET validade=false WHERE food=$1',
+                    [id]
+                );
+                console.log('oi');
+            }
+                
+
+            const desc2 = await db.query(
+                'INSERT INTO desconto (percent, data, food, validade) VALUES ($1, $2, $3, $4)',
+                [percent, now, id, true]
+            );
+
+        }catch(e){
+            console.log(e);
+        }
+
+        res.send({mnsg: "preço atualizado"})
 
     },
 
@@ -67,13 +106,39 @@ module.exports = {
     async menu(req, res){
 
         const {id} = req.query;
+
+        const menu = [];
         
         const {rows} = await db.query(
             'SELECT * FROM foods_restaurant WHERE restid = $1',
             [id]
         );
 
-        res.send(rows);
+        for(let i = 0; i < rows.length; i++){
+
+            const promo = await db.query(
+                'SELECT * FROM desconto WHERE food = $1 AND validade=$2',
+                [rows[i].id, true]
+            );
+
+            if(promo.rows.length){
+                menu.push({name: rows[i].name, 
+                        price: rows[i].price, 
+                        description: rows[i].description, 
+                        image: rows[i].image,
+                        percent: promo.rows[0].percent});
+            }
+            else{
+                menu.push({name: rows[i].name, 
+                    price: rows[i].price, 
+                    description: rows[i].description, 
+                    image: rows[i].image,
+                    percent: 0});
+            }    
+
+        }
+
+        res.send(menu);
 
     }
 }
