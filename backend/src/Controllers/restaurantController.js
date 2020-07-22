@@ -110,30 +110,45 @@ module.exports = {
 
         const populars = [];
 
-        const rests = await db.query(
-            'SELECT * FROM restaurants WHERE status=$1',
-            [true]
-        );
-
-        for(let i = 0; i < rests.rows.length; i++){
-
-            const foods = await db.query(
-                'SELECT price FROM foods_restaurant WHERE restid=$1',
-                [rests.rows[i].id]
+        try{
+            const rests = await db.query(
+                'SELECT * FROM restaurants WHERE status=$1',
+                [true]
             );
 
-            let qnt = 0;
+            for(let i = 0; i < rests.rows.length; i++){
 
-            for(let j = 0; j < foods.rows.length; j++)
-                if(foods.rows[j].price > 10)
-                    qnt++;
+                const foods = await db.query(
+                    'SELECT * FROM foods_restaurant WHERE restid=$1',
+                    [rests.rows[i].id]
+                );
+
+                let qnt = 0;
+
+                for(let j = 0; j < foods.rows.length; j++){
+
+                    const promo = await db.query(
+                        'SELECT * FROM desconto WHERE food=$1 AND validade=$2',
+                        [foods.rows[j].id, true]
+                    );	
+
+                    if(promo.rows.length !== 0){
+                        if( ((1 - promo.rows[0].percent)*foods.rows[j].price) > 10)		
+                            qnt++;
+                    }else
+                        if(foods.rows[j].price > 10)
+                            qnt++;  
+                }
+                    
+                if(!qnt)
+                    populars.push(rests.rows[i]);
                 
-            if(!qnt)
-                populars.push(rests.rows[i]);
-            
-        }
+            }
 
-        res.send(populars);
+            res.send(populars);
+        }catch(e){
+            res.send({err:e});
+        }
 
     },
 
@@ -242,7 +257,39 @@ module.exports = {
 
         res.send({food: food.rows, qnt: maisPedidos[0][1]});
 
-    }
+    },
 
+    async rel2(req, res){
+
+        const now = new Date();
+        const {period, id} = req.body;
+
+        const limit = new Date(now - 86400000*period);
+        const {rows} = await db.query(
+            'SELECT * FROM pedido WHERE data_pedido < $1 AND data_pedido > $2 AND restid=$3',
+            [now, limit, id]
+        );
+
+        let rel2 = rows.sort((a, b)=>{
+            return b.data_pedido - a.data_pedido;
+        });
+        
+        const frete = await db.query(
+            'SELECT entrega FROM restaurants WHERE id=$1',
+            [id]
+        );
+
+        rel2 = rows.map((item)=>{
+            
+            let entrega = 0;
+            if(frete.rows[0].entrega)
+                entrega = 2;
+        
+            return {value: item.value - entrega, frete: entrega, date: item.data_pedido}
+        });
+        
+        res.send(rel2);
+
+    }
 
 }

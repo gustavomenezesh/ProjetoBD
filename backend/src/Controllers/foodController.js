@@ -87,17 +87,24 @@ module.exports = {
             [id]
         );
 
+        const deleted = await db.query(
+            'DELETE FROM desconto WHERE food=$1',
+            [id]
+        );
+
+
         res.send(rows);
     },
 
     async searchFood(req, res){
         
         const {name} = req.query;
-        console.log(name);
+        
         const {rows} = await db.query(
             'SELECT * FROM foods_restaurant WHERE name LIKE $1',
             [`%${name}%`]
         );
+
 
         res.send(rows);
 
