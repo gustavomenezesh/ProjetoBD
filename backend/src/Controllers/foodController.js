@@ -24,7 +24,7 @@ module.exports = {
 
     async updateFood(req, res){
 
-        const {id, price} = req.body;
+        const {id, price, restid} = req.body;
 
         const now = new Date();
 
@@ -67,8 +67,8 @@ module.exports = {
                 
 
             const desc2 = await db.query(
-                'INSERT INTO desconto (percent, data, food, validade) VALUES ($1, $2, $3, $4)',
-                [percent, now, id, true]
+                'INSERT INTO desconto (percent, data, food, validade, restid) VALUES ($1, $2, $3, $4, $5)',
+                [percent, now, id, true, restid]
             );
 
         }catch(e){

@@ -290,6 +290,172 @@ module.exports = {
         
         res.send(rel2);
 
+    },
+
+    async promotion(req, res){
+
+        const promotions = [];
+
+        let now = new Date();
+        const [hour, minute, second] = now.toString().split(' ')[4].split(':');
+        now = new Date(now - (hour*60*60*1000 + minute*60*1000 + second * 1000));
+        
+        let yest = new Date(now - 86400000);
+        let limit = new Date(yest - 7*86400000);
+
+        try{
+            const rests = await db.query(
+                'SELECT * FROM restaurants WHERE status=$1',
+                [true]
+            );
+
+            for(let i = 0; i < rests.rows.length; i++){
+
+                const foods = await db.query(
+                    'SELECT * FROM foods_restaurant WHERE restid=$1',
+                    [rests.rows[i].id]
+                );
+
+                let qnt = 0;
+
+                for(let j = 0; j < foods.rows.length; j++){
+
+                    const promo = await db.query(
+                        'SELECT * FROM desconto WHERE food=$1',
+                        [foods.rows[j].id]
+                    );	
+                    
+                    //teve promo alguma vez
+                    if(promo.rows.length !== 0){
+
+                        const interval = promo.rows.filter(item => {
+                            return item.data < now && item.data >= limit;
+                        });
+                        
+                        //nao teve promo essa semana
+                        if(interval.length === 0){
+
+                            const actual = promo.rows.find(item =>{
+                                return item.data > limit
+                            })
+
+                            //teve promo hj
+                            if(actual){
+
+                                const med = promo.rows.find(item => {
+                                    return item.data < limit
+                                });
+
+                                let percent;
+
+                                if(!med){
+                                    percent = (1 - actual.percent)*foods.rows[j].price/foods.rows[j].price;
+                                }else{
+                                    percent = (1 - actual.percent)*foods.rows[j].price/((1-med.percent)*foods.rows[j].price);
+                                }
+
+                                if(percent <= 0.5)
+                                    qnt++;
+
+                            }
+                            
+                        }else{
+                            
+                            let sum = 0;
+                            let days = 0;
+                            for(let k = 0; k < interval.length; k++){
+
+                                if(k === 0 || k === interval.length-1){
+
+                                    if(k === 0){
+
+                                        if(interval[k].data.toString() !== limit.toString()){
+
+                                            const firstDescont = promo.rows.find(item=>{
+                                                return item.data < limit
+                                            });
+                                            
+                                            if(!firstDescont){
+                                                days = Math.floor((interval[k].data - limit)/86400000);
+                                                sum = sum + days*foods.rows[j].price;
+                                            }else{
+                                                days = Math.floor((interval[k].data - limit)/86400000);
+                                                sum = sum + days*(1 - firstDescont.percent/100)*foods.rows[j].price;
+                                            }
+
+                                        }else{
+
+                                            if(interval.rows.length === 1){
+                                                sum = sum + 7*(1 - interval[k].percent/100)*foods.rows[j].price;
+                                            }else{
+                                                days = Math.floor((interval[k+1].data - interval[k].data)/86400000);
+                                                sum = sum + days*(1 - interval[k].percent/100)*foods.rows[j].price;
+                                            }
+
+                                        }
+                                    }
+
+                                    if(k === interval.length - 1){
+
+                                        if(interval[k].data.toString() !== now.toString()){
+                                            days = Math.floor((now - interval[k].data)/86400000); 
+                                            sum = sum + days*(1 - interval[k].percent/100)*foods.rows[j].price;
+                                        }
+
+                                    }
+
+                                }else{
+
+                                    days = Math.floor((interval[k+1].data - interval[k].data)/86400000);
+                                    sum = sum + days*(1 - interval[k].percent/100)*foods.rows[j].price;
+
+                                }
+
+                            }
+                            
+                            const actualPrice = promo.rows.find(item=>{
+                                return item.validade === true;
+                            });
+                            
+                            const med = sum/7;
+                            const percent = (1 - actualPrice.percent/100)*foods.rows[j].price/med;
+
+                            if(percent <= 0.5)
+                                qnt++;
+
+                        }
+
+                    }
+                    
+                }
+                    
+                if(qnt>0)
+                    promotions.push(rests.rows[i]);
+                
+            }
+
+            res.send(promotions);
+        }catch(err){
+            console.log(err)
+            res.send({err:err});
+        }
+
+    },
+
+    async teste(req, res){
+        let now = new Date();
+        const [hour, minute, second] = now.toString().split(' ')[4].split(':');
+        now = new Date(now - (hour*60*60*1000 + minute*60*1000 + second * 1000));
+        
+        const promo = await db.query(
+            'SELECT * FROM desconto where id=$1',
+            [5]
+        );
+        
+        console.log(promo.rows[0].data.toString());
+        console.log(now.toString())
+
+        res.send({equal: Math.floor((now - promo.rows[0].data)/86400000)});
     }
 
 }
