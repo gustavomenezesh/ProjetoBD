@@ -1,0 +1,60 @@
+.top {
+    position: static;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background: #e3f6ff;
+}
+
+.top .info-pedido span {
+    margin-right: 20px;
+    font-weight: bolder;
+    color: #19b5fe;
+}
+
+.main-content .top .clear, .main-content .top .finish{
+    left: 420px;
+    top: 20px;
+
+    width: 200px;
+    height: 60px;
+
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+
+    border-radius: 10px;
+    border: none;
+
+    margin-top: 20px;
+    cursor: pointer;
+    outline: none;
+
+    transition: all 0.1s ease-in-out;
+    background: white;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.main-content .top .finish {
+    color: green;
+}
+
+.main-content .top .clear:hover {
+    background: red;
+    color: white;
+}
+
+.main-content .top .finish:hover {
+    background: green;
+    color: white;
+}
+
+.main-content .cards-2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 50px;
+    margin-left: 0px;
+    margin-bottom: 40px;
+}

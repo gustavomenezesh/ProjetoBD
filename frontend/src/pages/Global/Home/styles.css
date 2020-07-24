@@ -1,0 +1,83 @@
+.home {
+
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: #19B5FE;
+
+}
+
+.slogan {
+    min-width: 400px;
+}
+
+.slogan h1 {
+    font-size: 144px;
+    color: white;
+    font-weight: bold;
+}
+
+.slogan span {
+    color: #0D5B80;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.form-box {
+    display: flex;
+    height: max-content;
+    align-items: center;
+    flex-direction: column;
+    min-width: 400px;
+    background: #0D5B80;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.form-box h2 {
+    font-size: 48px;
+    color: #19B5FE;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.form-box input {
+    width: 300px;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.form-box button {
+    width: 150px;
+    height: 60px;
+    background: white;
+
+    font-size: 24px;
+    font-weight: bold;
+    color: #19B5FE;
+
+    border-radius: 10px;
+    border: none;
+
+    margin-top: 20px;
+    cursor: pointer;
+
+    transition: all 0.1s ease-in-out;
+}
+
+.form-box button:hover {
+    box-shadow: inset 0px -4px 4px rgba(0, 0, 0, 0.3);;
+}
+
+.form-box .link {
+    margin: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #19B5FE;
+    transition: all 0.1s ease-in-out;
+}
+
+.form-box .link:hover {
+    opacity: 0.7;
+}

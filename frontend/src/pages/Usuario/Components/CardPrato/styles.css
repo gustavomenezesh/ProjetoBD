@@ -1,0 +1,97 @@
+.card-3 {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+    padding: 40px;
+    background: white;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+
+}
+
+.card-3 img {
+    width: 200px;
+}
+
+.card-3 h3 {
+    color: #19b5fe;
+}
+.card-3 span {
+    font-weight: normal;
+    color: #0D5B80;
+}
+
+.card-3 .count {
+    border-radius: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center ;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.card-3 div {
+    width: 100%;
+    max-width: max-content;
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 9px;
+}
+
+.card-3 div button {
+    outline: none;
+    border: none;
+    color: #19b5fe;
+    background: white;
+    
+}
+
+.card-3 div button:hover {
+    background: #19b5fe;
+    color: white;
+}
+
+.card-3 div p {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: large;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.card-3 button[type="button"]{
+    width: 100%;
+    margin-top: 40px;
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: green;
+    background: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+.card-3 button[type="button"]:hover{
+    background: green;
+    color: white;
+}
+
+.card-3 .p {
+    margin-top: 20px;
+    text-align: center;
+}
+
