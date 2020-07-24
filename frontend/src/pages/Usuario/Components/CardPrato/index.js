@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './styles.css';
 
-const CardPrato = () => {
+const CardPrato = ({ prato }) => {
 
     const [ add, setAdd ] = useState('Adicionar ao carrinho')
 
@@ -23,11 +23,11 @@ const CardPrato = () => {
 
         <div className="card-3">
 
-            <img src="https://pngimg.com/uploads/burger_sandwich/burger_sandwich_PNG4114.png" alt="imagem prato" />
-            <h3>Nome do prato</h3>
-            <span>R$ 30,00</span>
+            <img src={prato.image} alt="imagem prato" />
+            <h3>{prato.name}</h3>
+            <span>R$ {prato.price}</span>
 
-            <p className="p">Descrição do prato</p>
+            <p className="p">{prato.description}</p>
             {/* <div>
                 <button onClick={handleCount} name="minus" className="count minus" >-</button>
                 <p>{count}</p>
