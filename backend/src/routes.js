@@ -21,7 +21,8 @@ routes.get('/restaurants', restaurantController.index);
 routes.get('/delivery', restaurantController.delivery);
 routes.get('/populars', restaurantController.popular);
 routes.get('/maisPedidos', restaurantController.maisPedidos);
-routes.get('/restaurants/:id', restaurantController.searchBycateg);
+routes.get('/categs/:id', restaurantController.searchBycateg);
+routes.get('/restaurants/:id', restaurantController.getbyId);
 routes.get('/restaurantsByName', restaurantController.searchByName);
 routes.get('/promotion', restaurantController.promotion);
 routes.get('/rel1', restaurantController.rel1);
@@ -36,7 +37,8 @@ routes.delete('/foodDelete', foodController.deleteFood);
 routes.get('/searchFood', foodController.searchFood);
 routes.get('/menu', foodController.menu);
 
-
+//categorias
+routes.get('/categs', restaurantController.categs);
 //restaurantController.makeTableCateg();
 
 module.exports = routes;

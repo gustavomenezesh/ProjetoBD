@@ -1,24 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles.css';
 
-const categorias = [
-    'Chinesa/Japonesa',
-    'FastFood',
-    'Sobremesa',
-    'Hamburguers',
-    'Pizza',
-    'Açaí',
-    'Comida Caseira',
-    'Sabduiches',
-    'Italiana',
-    'Bebidas'
-]
+import api from '../../../../api';
 
 const CadastroRest = () => {
 
     const [ image, setimage ] = useState('https://raw.githubusercontent.com/ViniciusSantos31/ProjetoBD/master/front-end/src/foto.png');
     const [ URLimage, setURLiamge ] = useState('');
+    const [ items, setItems ] = useState([]);
 
     function previewFile() {
         var preview = document.querySelector('img');
@@ -44,7 +34,15 @@ const CadastroRest = () => {
 
         console.log(URLimage);
 
-      }
+    }
+
+    useEffect(() => {
+
+        api.get('categs').then(response => {
+            setItems(response.data);
+        });
+
+    }, []);
 
     return (
         
@@ -79,9 +77,9 @@ const CadastroRest = () => {
                 <h3>Categorias</h3>
 
                 <ul className="ul">
-                    {categorias.map(item => (
-                        <li key={categorias.indexOf(item)}>
-                            {categorias[categorias.indexOf(item)]} 
+                    {items.map(item => (
+                        <li key={items.indexOf(item)}>
+                            {items[items.indexOf(item)].name} 
                         </li>
                     ))}
                 </ul>

@@ -1,9 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import './styles.css';
 
 const Sidebar = () => {
+
+    function handleClearStorage(){
+        localStorage.removeItem('rest');
+    }
+
+    const history = useHistory()
+
+    function handleLogOut() {
+
+        localStorage.removeItem('id');
+        localStorage.removeItem('isAuth');
+        localStorage.removeItem('type');
+        localStorage.removeItem('rest');
+
+        history.push('/');
+    }
 
     return (
 
@@ -14,11 +30,11 @@ const Sidebar = () => {
             <h4>Rua São Francisco, 81 C</h4>
 
             <ul className="options">
-                <li className="option"><Link className="link"to="/home">Início</Link></li>
-                <li className="option"> <Link className="link"to="profile">Editar Perfil</Link></li>
-                <li className="option"> <Link className="link"to="cart">Carrinho</Link></li>
-                <li className="option" ><Link className="link"to="profile">Meus Pedidos</Link></li>
-                <li className="option"> <Link className="link"to="profile">Sair</Link></li>
+                <li className="option"><Link className="link"to="/home" onClick={handleClearStorage} >Início</Link></li>
+                <li className="option"> <Link className="link"to="profile" onClick={handleClearStorage} >Editar Perfil</Link></li>
+                <li className="option"> <Link className="link"to="cart" onClick={handleClearStorage} >Carrinho</Link></li>
+                <li className="option" ><Link className="link"to="profile" onClick={handleClearStorage} >Meus Pedidos</Link></li>
+                <li className="option"> <Link className="link" onClick={handleLogOut} >Sair</Link></li>
             </ul>
         </div>
 

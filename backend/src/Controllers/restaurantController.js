@@ -1,4 +1,5 @@
 const db = require('../db/db_connection');
+const { response } = require('express');
 
 module.exports = {
 
@@ -44,6 +45,7 @@ module.exports = {
         );
 
         res.send(rows);
+        console.log(rows);
     },
 
 
@@ -91,6 +93,18 @@ module.exports = {
 
         res.send(rows);
 
+    },
+
+    async getbyId(req, res){
+
+        const { id } = req.params;
+
+        const {rows} = await db.query(
+            'SELECT * FROM restaurants WHERE id=$1',
+            [id]
+        );
+
+        res.send(rows);
     },
 
     async delivery(req, res){

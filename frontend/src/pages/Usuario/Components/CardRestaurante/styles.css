@@ -35,12 +35,20 @@
     color: #19B5FE;
 }
 
-.content-box h4 {
+.content-box .open {
     display: block;
     font-size: 20px;
     text-transform: uppercase;
     font-weight: normal;
     color: #1EDA00;
+}
+
+.content-box .close {
+    display: block;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: normal;
+    color: red;
 }
 
 .content-box div + div {
@@ -53,7 +61,6 @@
 }
 
 .content-box div + div h3 {
-    display: block;
     font-size: 20px;
     font-weight: normal;
 }
