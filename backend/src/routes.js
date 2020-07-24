@@ -37,6 +37,7 @@ routes.get('/searchFood', foodController.searchFood);
 routes.get('/menu', foodController.menu);
 
 
-//restaurantController.makeTableCateg();
+//categs
+routes.get('/menu')
 
 module.exports = routes;
