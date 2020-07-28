@@ -56,6 +56,7 @@ module.exports = {
     async login(req, res){
         
         const {email, pass} = req.body;
+        console.log({email, pass});
         
         let rows = await db.query(
             'SELECT * FROM clients WHERE email=$1 AND pass=$2',
@@ -70,6 +71,7 @@ module.exports = {
         }
 
         res.send(rows.rows);
+        console.log(rows.rows)
        
     },
 

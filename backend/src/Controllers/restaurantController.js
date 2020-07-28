@@ -1,4 +1,5 @@
 const db = require('../db/db_connection');
+const { response } = require('express');
 
 module.exports = {
 
@@ -44,6 +45,7 @@ module.exports = {
         );
 
         res.send(rows);
+        console.log(rows);
     },
 
 
@@ -91,6 +93,18 @@ module.exports = {
 
         res.send(rows);
 
+    },
+
+    async getbyId(req, res){
+
+        const { id } = req.params;
+
+        const {rows} = await db.query(
+            'SELECT * FROM restaurants WHERE id=$1',
+            [id]
+        );
+
+        res.send(rows);
     },
 
     async delivery(req, res){
@@ -351,7 +365,7 @@ module.exports = {
                             }else{
                                 medPrice = (1-med.percent)*foods.rows[j].price;
                             }
-
+                            
                             medias.push({name: foods.rows[j].name, medPrice: medPrice});
 
                         }else{
@@ -359,8 +373,8 @@ module.exports = {
                             const med = promo.rows.find(item => {
                                 return item.data < limit
                             });
-
-                            medias.push({name: foods.rows[j].name, medPrice: med.price});
+                            const price = (1 - med.percent/100)*foods.rows[j].price;
+                            medias.push({name: foods.rows[j].name, medPrice: price});
 
                         }
                             
@@ -419,7 +433,7 @@ module.exports = {
                         }
                             
                         const med = sum/7;
-                        medias.push({name: foods.rows[j].name, medPrice: med}),
+                        medias.push({name: foods.rows[j].name, medPrice: med});
                     }
 
                 }else{

@@ -1,0 +1,66 @@
+.content-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    padding-right: 0;
+    width: 100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.content-box:hover {
+    background: #19B5FE;
+    box-shadow: inset 0px -4px 4px rgba(0, 0, 0, 0.1);;
+}
+
+.content-box:hover h2, .content-box:hover h4 {
+    color: white;
+}
+
+.content-box img {
+    width: 150px;
+    margin-right: 20px;
+}
+
+.content-box div {
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+.content-box h2 {
+    display: block;
+    color: #19B5FE;
+}
+
+.content-box .open {
+    display: block;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: normal;
+    color: #1EDA00;
+}
+
+.content-box .close {
+    display: block;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: normal;
+    color: red;
+}
+
+.content-box div + div {
+    height: 100%;
+    position: relative;
+    transform: rotate(90deg);
+    left: auto;
+    font-weight: lighter;
+    color: #0D5B80;
+}
+
+.content-box div + div h3 {
+    font-size: 20px;
+    font-weight: normal;
+}
