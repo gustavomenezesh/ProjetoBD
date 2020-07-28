@@ -4,8 +4,6 @@ const routes = Router();
 const restaurantController = require('./Controllers/restaurantController');
 const foodController = require('./Controllers/foodController')
 
-
-
 //users
 routes.post('/clientsCreate', clientController.create);
 routes.post('/clientsUpdate', clientController.update);
