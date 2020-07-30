@@ -1,4 +1,6 @@
 const db = require('../db/db_connection');
+const gdrive = require('../../utils/gdrive');
+const base64ToImage = require('base64-to-image');
 
 module.exports = {
 
@@ -6,18 +8,27 @@ module.exports = {
 
         const {name, email, adress, pass, tipo, image} = req.body;
 
-        const {rows} = await db.query(
-            'INSERT INTO clients (name, email, adress, pass, tipo, image) VALUES ($1, $2, $3, $4, $5, $6)',
-            [name, email, adress, pass, tipo, image]
-        );
+        const path ='../../';
+        const optionalObj = {fileName: 'imagem', type:'png'};
+
+        const imageInfo = base64ToImage(image,path,optionalObj);
+
+        gdrive.imageUpload(`${name}.png`, "./imagem.png", async (link) => {
+            console.log(link);
+            const {rows} = await db.query(
+                'INSERT INTO clients (name, email, adress, pass, tipo, image) VALUES ($1, $2, $3, $4, $5, $6)',
+                [name, email, adress, pass, tipo, link]
+            );
 
 
-        res.send({
-            message: "Client added successfully!",
-            body: {
-                client: {name, email, adress, pass, tipo}
-            }
+            res.send({
+                message: "Client added successfully!",
+                body: {
+                    client: {name, email, adress, pass, tipo, link}
+                }
+            });
         });
+        
 
     },
 

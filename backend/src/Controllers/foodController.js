@@ -1,23 +1,35 @@
 const db = require('../db/db_connection');
+const gdrive = require('../../utils/gdrive');
+const base64ToImage = require('base64-to-image');
+
 
 module.exports = {
 
     async foodCreate(req, res){
 
         const {restid, name, price, description, image} = req.body;
+
+        const path ='../../';
+        const optionalObj = {fileName: 'imagem', type:'png'};
+
+        const imageInfo = base64ToImage(image,path,optionalObj);
+
+        gdrive.imageUpload(`${name}.png`, "./imagem.png", async (link) => {
         
-        const insert = await db.query(
-            'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
-            [restid, name, price, description, image]
-        );
+            const insert = await db.query(
+                'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
+                [restid, name, price, description, link]
+            );
 
 
-        const {rows} = await db.query(
-            'SELECT * FROM foods_restaurant WHERE restid=$1',
-            [restid]
-        );
+            const {rows} = await db.query(
+                'SELECT * FROM foods_restaurant WHERE restid=$1',
+                [restid]
+            );
 
-        res.send(rows);
+            res.send(rows);
+
+        });
 
 
     },
