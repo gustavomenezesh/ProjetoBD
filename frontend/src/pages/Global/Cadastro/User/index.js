@@ -1,9 +1,58 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
 import '../styles.css';
+import api from '../../../../api';
 
 const CadastroClient = () => {
+
+    const [ image, setimage ] = useState('https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4');
+    const [ URLimage, setURLiamge ] = useState('');
+    const history = useHistory();
+    const [ formData, setFormData ] = useState({
+        name: '',
+        email: '',
+        adress: '',
+        pass: '',
+    })
+
+    function handleChangeInput(e) {
+        
+        const {name, value} = e.target;
+        setFormData({...formData, [name]: value});
+
+    }
+    
+    
+    async function handleSubmit(e) {
+
+        e.preventDefault();
+
+        const { name, email, pass, adress } = formData;
+        const image = 'https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4';
+
+        const data = {
+            name,
+            email,
+            adress,
+            pass,
+            tipo: 'client',
+            image,
+        }
+
+        console.log(data);
+
+        await api.post('clientsCreate', data);
+        history.push('/')
+
+        setFormData({
+            name: '',
+            email: '',
+            adress: '',
+            pass: '',
+        })
+    
+    }
 
     return (
         
@@ -19,22 +68,22 @@ const CadastroClient = () => {
                 </span>
 
             </aside>
-            <form className="form-box">
+            <form className="form-box" onSubmit={handleSubmit}>
 
                 <h2>Cadastro</h2>
 
                 <div className="image">
-                    <img src="https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg" />
+                    <img src={image} />
                     <div>
                         <h3>Foto do perfil</h3>
                         <input type="file" />
                     </div>
                 </div>
 
-                <input type="name" placeholder="Nome" />
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Senha" />
-                <input type="name" placeholder="Endereço" />
+                <input type="name" name="name" onChange={handleChangeInput} value={formData.name}placeholder="Nome" />
+                <input type="email" name="email" onChange={handleChangeInput} value={formData.email}placeholder="Email" />
+                <input type="password" name="pass" onChange={handleChangeInput} value={formData.pass}placeholder="Senha" />
+                <input type="name" name="adress" onChange={handleChangeInput} value={formData.adress}placeholder="Endereço" />
 
                 <button type="submit" >Cadastrar</button>
                 <Link className="link" to="/">

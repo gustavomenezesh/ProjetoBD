@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import api from '../../../../api';
 
 import './styles.css';
 
@@ -10,6 +11,7 @@ const Sidebar = () => {
     }
 
     const history = useHistory()
+    const [ user, setUser ] = useState([]);
 
     function handleLogOut() {
 
@@ -21,13 +23,23 @@ const Sidebar = () => {
         history.push('/');
     }
 
+    useEffect(() => {
+
+        const id = localStorage.getItem('id');
+
+        api.get(`user/${id}`).then(response => {
+            setUser(response.data[0]);
+        })
+        
+    }, [])
+
     return (
 
         <div className="sidebar">
             
             <img src="https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg" />
-            <h3>Vinicius Santos</h3>
-            <h4>Rua São Francisco, 81 C</h4>
+            <h3>{user.name}</h3>
+            <h4>{user.adress}</h4>
 
             <ul className="options">
                 <li className="option"><Link className="link"to="/home" onClick={handleClearStorage} >Início</Link></li>

@@ -47,7 +47,7 @@ const ViewRest = () => {
 
                 <div className="menu">
                     {cardapio.map(prato => (
-                        <CardPrato prato={prato} />
+                        <CardPrato  prato={prato} />
                     ))}
                     {/* <CardPrato />
                     <CardPrato />

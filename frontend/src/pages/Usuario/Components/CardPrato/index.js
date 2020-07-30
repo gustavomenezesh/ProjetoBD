@@ -4,10 +4,9 @@ import './styles.css';
 const CardPrato = ({ prato }) => {
 
     const [ add, setAdd ] = useState('Adicionar ao carrinho')
+    const [ car, setCar ] = useState([]);
 
-    function handleAdd(e){
-
-        e.preventDefault();
+    function handleAdd(id){
 
         if (add === 'Adicionar ao carrinho'){
             setAdd('Adicionado com sucesso!');
@@ -15,6 +14,7 @@ const CardPrato = ({ prato }) => {
         setTimeout(() => {
             setAdd('Adicionar ao carrinho');
         },[1000])
+
     }
 
     
@@ -34,7 +34,7 @@ const CardPrato = ({ prato }) => {
                 <button onClick={handleCount} name="plus" className="count plus" >+</button>
             </div> */}
 
-            <button onClick={handleAdd} type="button">{add}</button>
+            <button onClick={() => handleAdd(prato.id)} type="button">{add}</button>
         </div>
 
     );

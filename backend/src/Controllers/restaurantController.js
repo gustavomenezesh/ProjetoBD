@@ -52,7 +52,7 @@ module.exports = {
     async index(req, res){
 
         const {rows} = await db.query(
-            'SELECT * FROM restaurants', []
+            'SELECT * FROM restaurants WHERE status=$1', [true]
         );
 
         res.send(rows);

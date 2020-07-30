@@ -53,6 +53,19 @@ module.exports = {
         });
     },
 
+    async findUser(req, res) {
+
+        const { id } = req.params;
+
+        const {rows} = await db.query(
+            'SELECT * FROM clients WHERE id=$1',
+            [id]
+        );
+
+        res.send(rows);
+
+    },
+
     async login(req, res){
         
         const {email, pass} = req.body;

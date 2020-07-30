@@ -9,32 +9,14 @@ import rapida from '../../../assets/card2.png';
 import { Link, useHistory } from 'react-router-dom';
 import api from '../../../api';
 
-const categorias = [
-    'Chinesa/Japonesa',
-    'FastFood',
-    'Sobremesa',
-    'Hamburguers',
-    'Pizza',
-    'Açaí',
-    'Comida Caseira',
-    'Sabduiches',
-    'Italiana',
-    'Bebidas'
-]
 
 const User = () => {
 
     const [ items, setItems ] = useState([]);
     const [ restaurants, setRestaurants ] = useState([]);
-    
-    function handleFilter(e){
-        
-        if (e.target.value === 'Todas'){
-            console.log('limpou o filter')
-        }
-        console.log(e.target.value)
-    }
-    
+    const [ selectFilter, setSelectFilter ] = useState(false);
+    const [ filter, setFilter ] = useState(-1);
+
     useEffect(() => {
 
         api.get('categs').then(response => {
@@ -43,6 +25,41 @@ const User = () => {
         });
 
     }, []);
+    
+    async function handleFilter(e){
+
+        const id = e.target.value
+        
+        if (id == -1){
+
+            await api.get('restaurants').then(response => {
+                setRestaurants(response.data);
+            })
+
+            setSelectFilter(false);
+            
+        }else {
+
+            await api.get(`categs/${id}`).then(response => {
+                setRestaurants(response.data);
+            })
+
+            console.log(id)
+
+            setSelectFilter(true);
+
+            setFilter(items.map( item => {
+                if (items[items.indexOf(item)].id == id){
+                    setFilter(item.name);
+                }   
+            }))
+
+        }
+
+        console.log(filter)
+    }
+    
+    
 
     useEffect (() => {
 
@@ -60,6 +77,8 @@ const User = () => {
 
     }
 
+    console.log(window.value);
+
     return (
 
         <div className="main">
@@ -71,7 +90,7 @@ const User = () => {
 
                         <label htmlFor="filter">Categorias</label>
                         <select name="filter" id="filter" onChange={handleFilter}>
-                            <option value="Todas">Todas</option>
+                            <option value="-1">Todas</option>
                             {items.map(item => (
                                 <option value={items[items.indexOf(item)].id} key={items[items.indexOf(item)].name}>
                                     {items[items.indexOf(item)].name} 
@@ -90,7 +109,7 @@ const User = () => {
                     <img src={rapida} alt="Entrega Rápida"/>
                     <img src={gratis} alt="Promoções da semana"/>
                 </div>
-
+                { selectFilter ? <h2>Buscando por {filter}</h2> : null }
                 <div className="cards">
 
                     {restaurants.map(restaurant => (

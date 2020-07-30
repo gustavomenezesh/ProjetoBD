@@ -12,6 +12,7 @@ routes.post('/clientsUpdate', clientController.update);
 routes.post('/login', clientController.login);
 routes.post('/doOrder', clientController.do_order);
 routes.get('/filterOrders', clientController.filterOrders);
+routes.get('/user/:id', clientController.findUser);
 
 
 
