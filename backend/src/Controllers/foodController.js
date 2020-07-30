@@ -141,14 +141,18 @@ module.exports = {
             );
 
             if(promo.rows.length){
-                menu.push({name: rows[i].name, 
+                menu.push({
+                        id: rows[i].id,
+                        name: rows[i].name, 
                         price: rows[i].price, 
                         description: rows[i].description, 
                         image: rows[i].image,
                         percent: promo.rows[0].percent});
             }
             else{
-                menu.push({name: rows[i].name, 
+                menu.push({
+                    id: rows[i].id,
+                    name: rows[i].name, 
                     price: rows[i].price, 
                     description: rows[i].description, 
                     image: rows[i].image,

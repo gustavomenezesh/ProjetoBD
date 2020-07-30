@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../Components/SideBar';
 import CardPedido from '../Components/CardPedido';
 
 import './styles.css';
 
 const Cart = () => {
-
+    
     return (
 
         <div className="main">
@@ -23,6 +23,10 @@ const Cart = () => {
                 </div>
 
                 <div className="cards-2">
+
+                    {/* {pratos.map(prato => {
+                        <CardPedido prato={prato} />
+                    })} */}
                 
                     <CardPedido />              
                     <CardPedido />              

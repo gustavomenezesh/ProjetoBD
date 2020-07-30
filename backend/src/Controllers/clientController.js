@@ -34,27 +34,35 @@ module.exports = {
 
     async update(req, res){
 
-        const {name, email, adress, pass, image} = req.body;
+        const {id, name, email, adress, newpass} = req.body;
+        const pass = newpass;
+        console.log(req.body);
 
-        let {rows} = await db.query(
-            'UPDATE clients SET adress = $2 WHERE email = $1',
-            [email, adress]
-        );
+        if ( adress !== '' ) {
+            let { rows } = await db.query(
+                'UPDATE clients SET adress = $2 WHERE id = $1',
+                [id, adress]
+            );
+        }
+        if ( name !== '' ){
+            rows = await db.query(
+                'UPDATE clients SET name = $2 WHERE id = $1',
+                [id, name]
+            );
+        }
+        if ( pass !== '' ){
+            rows = await db.query(
+                'UPDATE clients SET pass = $2 WHERE id = $1',
+                [id, pass]
+            );
+        }
+        if ( email !== '' ){
+            rows = await db.query(
+                'UPDATE clients SET email = $2 WHERE id = $1',
+                [id, email]
+            );
+        }
 
-        rows = await db.query(
-            'UPDATE clients SET name = $2 WHERE email = $1',
-            [email, name]
-        );
-
-        rows = await db.query(
-            'UPDATE clients SET pass = $2 WHERE email = $1',
-            [email, pass]
-        );
-
-        rows = await db.query(
-            'UPDATE clients SET image = $2 WHERE email = $1',
-            [email, image]
-        );
 
         res.send({
             message: "Adress updated successfully!",
@@ -62,6 +70,19 @@ module.exports = {
                 client: {name, email, adress, pass}
             }
         });
+    },
+
+    async findUser(req, res) {
+
+        const { id } = req.params;
+
+        const {rows} = await db.query(
+            'SELECT * FROM clients WHERE id=$1',
+            [id]
+        );
+
+        res.send(rows);
+
     },
 
     async login(req, res){
