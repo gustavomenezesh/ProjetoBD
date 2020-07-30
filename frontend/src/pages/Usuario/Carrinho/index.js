@@ -5,9 +5,7 @@ import CardPedido from '../Components/CardPedido';
 import './styles.css';
 
 const Cart = () => {
-
     
-
     return (
 
         <div className="main">

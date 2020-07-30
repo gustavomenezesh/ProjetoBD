@@ -3,22 +3,20 @@ import Sidebar from '../Components/SideBar';
 import api from '../../../api';
 
 import './styles.css';
+import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
 
     const [ formData, setFormData ] = useState({
-        id: '',
+        id: Number(localStorage.getItem('id')),
         name: '',
+        email: '',
         adress: '',
         pass: '',
         newpass: ''
     })
 
-    const [ id, setId ] = useState('');
-    const [ name, setName ] = useState('');
-    const [ adress, setAdress ] = useState('');
-    const [ pass, setPass ] = useState('');
-    const [ passBool, setPassBool ] = useState(false)
+    const history = useHistory();
 
     function handlehangeInput(e) {
 
@@ -29,54 +27,28 @@ const Profile = () => {
         
     }
 
-    useEffect(async () => {
+    /* useEffect(() => {
 
-        const id = localStorage.getItem('id');
-
-        await api.get(`user/${id}`).then(response => {
-
-            setId(response.data[0].id);
-            setName(response.data[0].name);
-            setAdress(response.data[0].adress);
-            setPass(response.data[0].pass);
-
-        })
-        
-    }, []);
-
-    useEffect(() => {
-
-        if (formData.pass !== pass){
+        if (formData.pass !== Oldpass){
             setPassBool(true)
         }else{
             setPassBool(false)
         }
 
-    }, [formData.pass])
+    }, [formData.pass]) */
 
     async function handleSubmit(e) {
 
         e.preventDefault();
 
-        setFormData({...formData, id: id})
+        setFormData({...formData, pass: formData.newpass});
+        await api.post('clientsUpdate', formData);
 
-        if (formData.name.length === 0 ){
-            setFormData({...formData, name: name})
-        }
-        if (formData.adress.length === 0 ){
-            setFormData({...formData, adress: adress})
-        }
-        if (formData.name.length === 0 ){
-            setFormData({...formData, newpass: pass})
-            console.log(formData.newpass);
-        }
-
-        /* if (passBool){
-            await api.post('clientsUpdate', formData)
-        } */
+        history.push('/home');
+        
 
     }    
-    console.log(`id: ${formData.id}, name: ${formData.name}, adress: ${formData.adress}, newpass: ${formData.newpass}`);
+
     return (
         <div className="main">
             <Sidebar />
@@ -87,9 +59,9 @@ const Profile = () => {
                 <form className="form-box" onSubmit={handleSubmit} >
                     
                     <h2>Perfil</h2>
-                    <input type="name" onChange={handlehangeInput} name="name" placeholder="Nome"/>
+                    <input type="name" onChange={handlehangeInput} name="name" placeholder="Nome" value={formData.name}/>
                     <input type="name" onChange={handlehangeInput} name="adress" placeholder="Endereço"/>
-                    {passBool ?  <p>A senha atual não corresponde</p> : null}
+                    {/* { passBool ?  <p>A senha atual não corresponde</p> : null } */}
                     <input type="password" onChange={handlehangeInput} name="pass" placeholder="Senha atual" />
                     <input type="password" onChange={handlehangeInput} name="newpass" placeholder="Nova senha"/>
 

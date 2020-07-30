@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { ReactFileReader } from 'react-file-reader';
 
 import '../styles.css';
 import api from '../../../../api';
@@ -14,6 +15,7 @@ const CadastroClient = () => {
         email: '',
         adress: '',
         pass: '',
+        image: ''
     })
 
     function handleChangeInput(e) {
@@ -22,15 +24,36 @@ const CadastroClient = () => {
         setFormData({...formData, [name]: value});
 
     }
-    
+
+    function previewFile() {
+        var preview = document.querySelector('img');
+        var file    = document.querySelector('div input[type=file]').files[0];
+        var reader  = new FileReader();
+      
+        reader.onloadend = function () {
+          preview.src = reader.result;
+          setimage(preview.src);
+        }
+
+        
+        if (file) {
+            
+            reader.readAsDataURL(file);
+
+        } else {
+
+          preview.src = "";
+
+        }
+        
+
+    }
     
     async function handleSubmit(e) {
 
         e.preventDefault();
 
         const { name, email, pass, adress } = formData;
-        const image = 'https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4';
-
         const data = {
             name,
             email,
@@ -76,7 +99,7 @@ const CadastroClient = () => {
                     <img src={image} />
                     <div>
                         <h3>Foto do perfil</h3>
-                        <input type="file" />
+                        <input type="file" onChange={previewFile} />
                     </div>
                 </div>
 

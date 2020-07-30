@@ -37,7 +37,7 @@ const Sidebar = () => {
 
         <div className="sidebar">
             
-            <img src="https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg" />
+            <img src = {user.image === null ? "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg" : user.image} />
             <h3>{user.name}</h3>
             <h4>{user.adress}</h4>
 
