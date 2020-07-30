@@ -4,8 +4,6 @@ const routes = Router();
 const restaurantController = require('./Controllers/restaurantController');
 const foodController = require('./Controllers/foodController')
 
-
-
 //users
 routes.post('/clientsCreate', clientController.create);
 routes.post('/clientsUpdate', clientController.update);
@@ -27,7 +25,7 @@ routes.get('/restaurantsByName', restaurantController.searchByName);
 routes.get('/promotion', restaurantController.promotion);
 routes.get('/rel1', restaurantController.rel1);
 routes.get('/rel2', restaurantController.rel2);
-routes.get('/rel3');
+routes.get('/rel3', restaurantController.rel3);
 routes.get('/teste', restaurantController.teste);
 
 //foods
@@ -37,8 +35,9 @@ routes.delete('/foodDelete', foodController.deleteFood);
 routes.get('/searchFood', foodController.searchFood);
 routes.get('/menu', foodController.menu);
 
+
 //categorias
 routes.get('/categs', restaurantController.categs);
-//restaurantController.makeTableCateg();
+
 
 module.exports = routes;
