@@ -15,7 +15,7 @@ const User = () => {
     const [ items, setItems ] = useState([]);
     const [ restaurants, setRestaurants ] = useState([]);
     const [ selectFilter, setSelectFilter ] = useState(false);
-    const [ filter, setFilter ] = useState(-1);
+    const [ filter, setFilter ] = useState('');
 
     useEffect(() => {
 
@@ -28,7 +28,9 @@ const User = () => {
     
     async function handleFilter(e){
 
-        const id = e.target.value
+        e.preventDefault();
+
+        const id = e.target.value;
         
         if (id == -1){
 
@@ -42,21 +44,20 @@ const User = () => {
 
             await api.get(`categs/${id}`).then(response => {
                 setRestaurants(response.data);
-            })
-
-            console.log(id)
+            });
 
             setSelectFilter(true);
+            for (let i = 0; i < items.length; i++) {
 
-            setFilter(items.map( item => {
-                if (items[items.indexOf(item)].id == id){
-                    setFilter(item.name);
-                }   
-            }))
+                if (items[i].id == id){
+                    setFilter(items[i].name);
+                }
+                
+            }
 
         }
 
-        console.log(filter)
+        
     }
     
     
@@ -77,7 +78,15 @@ const User = () => {
 
     }
 
-    console.log(window.value);
+    async function handleSearch(e) {
+
+        const input = document.querySelector('input[name=search]')
+
+        await api.get(`restaurantsByName?name=${input.value}`).then(response => {
+            setRestaurants(response.data);
+        })
+
+    }
 
     return (
 
@@ -101,7 +110,7 @@ const User = () => {
                     </div>
                     <div className="search">
                         <input type="search" name="search" id="search" placeholder="Pesquisar"/>
-                        <button type="submit" name="" >Pesquisar</button>
+                        <button type="submit" onClick={ handleSearch } name="search" >Pesquisar</button>
                     </div>
                 </div>
                 <div className="promo">

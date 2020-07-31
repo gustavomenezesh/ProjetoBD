@@ -84,11 +84,15 @@ module.exports = {
 
         for(let i = 0; i < rows.length; i++){
             const obj = await db.query(
-                'SELECT * FROM restaurants WHERE id=$1 AND status=$2',
-                [rows[i].id, true]
+                'SELECT * FROM restaurants WHERE id=$1',
+                [rows[i].restid]
             );
-            datas.push(obj.rows[0]);
+            console.log(obj);
+            if (obj.rows[0].status === true){
+                datas.push(obj.rows[0]);
+            }
         }
+        console.log(datas);
         res.send(datas);
             
     },
@@ -98,8 +102,8 @@ module.exports = {
         const {name} = req.query;
         
         const {rows} = await db.query(
-            'SELECT * FROM restaurants WHERE name LIKE $1 AND status = $2',
-            [`%${name}%`, true]
+            'SELECT * FROM restaurants WHERE name LIKE $1',
+            [`%${name}%`]
         );
 
         res.send(rows);
