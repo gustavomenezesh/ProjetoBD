@@ -57,10 +57,19 @@ const User = () => {
 
         }
 
-        
     }
     
-    
+    async function handleCleanFilter(e) {
+
+        await api.get('restaurants').then(response => {
+            setRestaurants(response.data);
+        })
+
+        setSelectFilter(false);
+        const input = document.querySelector('input[name=search]')
+        input.value = '';
+
+    }
 
     useEffect (() => {
 
@@ -81,10 +90,47 @@ const User = () => {
     async function handleSearch(e) {
 
         const input = document.querySelector('input[name=search]')
+        
+        if (input.value.length !== 0){
 
-        await api.get(`restaurantsByName?name=${input.value}`).then(response => {
-            setRestaurants(response.data);
-        })
+            await api.get(`restaurantsByName?name=${input.value}`).then(response => {
+                setRestaurants(response.data);
+            })
+
+            setSelectFilter(true);
+            setFilter(input.value);
+
+        }else {
+
+            api.get('restaurants').then(response => {
+                setRestaurants(response.data);
+            })
+
+            setSelectFilter(false);
+
+        }
+
+        
+
+    }
+
+    async function handleFilterEntrega(e){
+
+        const click = e.target.name;
+
+        if (click === 'gratis'){
+            await api.get(`delivery?type=${true}`).then(response => {
+                setRestaurants(response.data);
+            })
+            setFilter('Entrega grátis');
+            setSelectFilter(true);
+        }else {
+            await api.get(`delivery?type=${false}`).then(response => {
+                setRestaurants(response.data);
+            })
+            setFilter('Entrega rápida');
+            setSelectFilter(true);
+        }
 
     }
 
@@ -109,27 +155,23 @@ const User = () => {
 
                     </div>
                     <div className="search">
-                        <input type="search" name="search" id="search" placeholder="Pesquisar"/>
-                        <button type="submit" onClick={ handleSearch } name="search" >Pesquisar</button>
+                        <input type="search" onChange={ handleSearch } name="search" id="search" placeholder="Pesquisar"/>
+                        {/* <button type="submit" onClick={ handleSearch } name="search" >Pesquisar</button> */}
                     </div>
                 </div>
                 <div className="promo">
-                    <img src={gratis} alt="Frete grátis"/>
-                    <img src={rapida} alt="Entrega Rápida"/>
-                    <img src={gratis} alt="Promoções da semana"/>
+                    <img src={gratis} alt="Frete grátis" name="gratis" onClick={handleFilterEntrega}/>
+                    <img src={rapida} alt="Entrega Rápida" name="rapida" onClick={handleFilterEntrega} />
+                    <img src={gratis} alt="Promoções da semana" name="promo" onClick={handleFilterEntrega} />
                 </div>
-                { selectFilter ? <h2>Buscando por {filter}</h2> : null }
+                { selectFilter ? <div className="filter-2"><h2>Buscando por "{filter}"</h2> <button type="submit" className="button" onClick={handleCleanFilter} >Limpar filtro</button> </div> : null }
+                { restaurants.length === 0 ? <div className="err"><h2>Nenhum resultado encontrado.</h2></div> : null}
                 <div className="cards">
 
                     {restaurants.map(restaurant => (
                         <Link className="Link" to="/restaurant" onClick={() => handleOpenRestaurant(restaurant.id)} ><Card restaurant={restaurant} /></Link>
                     ))}
 
-                    {/* <Link className="Link" to="/restaurant"><Card /></Link>
-                    <Link className="Link" to="/restaurant"><Card /></Link>
-                    <Link className="Link" to="/restaurant"><Card /></Link>
-                    <Link className="Link" to="/restaurant"><Card /></Link>
-                    <Link className="Link" to="/restaurant"><Card /></Link> */}
                 </div>
             </div>
         </div>

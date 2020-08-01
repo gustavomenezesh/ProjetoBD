@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
+import api from '../../../../api';
 
-const CardPedido = () => {
+const CardPedido = ({ prato }) => {
 
-    const [ count, setCount ] = useState(1);
+    const [ count, setCount ] = useState(prato.qnt);
+    const [ info, setInfo ] = useState([]);
+
+    useEffect( async () => {
+
+        await api.get(`foods/${prato.food}`).then(response => {
+            setInfo(response.data[0]);
+        })
+
+    }, []);
 
     function handleCount(e){
 
@@ -33,8 +43,8 @@ const CardPedido = () => {
 
         <div className="card">
             <img src="https://pngimg.com/uploads/burger_sandwich/burger_sandwich_PNG4114.png" alt="imagem prato" />
-            <h3>Nome do prato</h3>
-            <span>R$ 30,00</span>
+            <h3>{info.name}</h3>
+            <span>R$ {info.price}</span>
 
             <div>
                 <button onClick={handleCount} name="minus" className="count minus" >-</button>
