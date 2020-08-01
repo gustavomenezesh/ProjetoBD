@@ -2,7 +2,8 @@ const {Router} = require('express');
 const clientController = require('./Controllers/clientController');
 const routes = Router();
 const restaurantController = require('./Controllers/restaurantController');
-const foodController = require('./Controllers/foodController')
+const foodController = require('./Controllers/foodController');
+const cartController = require('./Controllers/cartController');
 
 //users
 routes.post('/clientsCreate', clientController.create);
@@ -36,6 +37,12 @@ routes.delete('/foodDelete', foodController.deleteFood);
 routes.get('/searchFood', foodController.searchFood);
 routes.get('/menu', foodController.menu);
 
+routes.get('/foods/:id', foodController.indexOne);
+
+//carrinho
+routes.get('/carrinho', cartController.index);
+routes.post('/carrinho', cartController.add);
+routes.delete('/carrinho', cartController.remove);
 
 //categorias
 routes.get('/categs', restaurantController.categs);

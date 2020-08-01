@@ -163,5 +163,17 @@ module.exports = {
 
         res.send(menu);
 
+    },
+
+    async indexOne(req, res){
+
+        const { id } = req.params;
+
+        const { rows } = await db.query(
+            'SELECT * FROM foods_restaurant WHERE id=$1', [id]
+        )
+
+        res.send(rows);
+
     }
 }

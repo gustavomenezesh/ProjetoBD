@@ -127,8 +127,8 @@ module.exports = {
         const {type} = req.query;
 
         const {rows} = await db.query(
-            'SELECT * FROM restaurants WHERE entrega=$1',
-            [type]
+            'SELECT * FROM restaurants WHERE entrega=$1 AND status=$2',
+            [type, true]
         );
 
         res.send(rows);
