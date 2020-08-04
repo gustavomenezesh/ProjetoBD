@@ -8,10 +8,10 @@ module.exports = {
 
         const {name, email, adress, pass, tipo, image} = req.body;
 
-        const path ='../../';
+        /*const path ='../../';
         const optionalObj = {fileName: 'imagem', type:'png'};
 
-        const imageInfo = base64ToImage(image,path,optionalObj);
+        const imageInfo = base64ToImage(image,path,optionalObj);*/
 
         gdrive.imageUpload(`${name}.png`, "./imagem.png", async (link) => {
             console.log(link);
@@ -123,6 +123,11 @@ module.exports = {
         }catch(e){
             console.log(e.detail);
         }
+
+        const del = await db.query(
+            'DELETE FROM car WHERE client=$1',
+            [idclient]
+        );
 
         res.send({idfoods, value, idclient, date});
 

@@ -5,6 +5,8 @@ import { ReactFileReader } from 'react-file-reader';
 import '../styles.css';
 import api from '../../../../api';
 
+const base64ToImage = require('base64-to-image');
+
 const CadastroClient = () => {
 
     const [ image, setimage ] = useState('https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4');
@@ -54,6 +56,14 @@ const CadastroClient = () => {
         e.preventDefault();
 
         const { name, email, pass, adress } = formData;
+
+        /*const path ='../../../../../../backend';
+        const optionalObj = {fileName: 'imagem', type:'png'};
+        
+
+        const imageInfo = base64ToImage(image,path,optionalObj);
+        console.log({ name, email, pass, adress })*/
+
         const data = {
             name,
             email,

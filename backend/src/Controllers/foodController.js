@@ -163,5 +163,77 @@ module.exports = {
 
         res.send(menu);
 
+    },
+
+    async indexCar(req, res){
+
+        try{
+            const { rows } = await db.query('SELECT * FROM car', []);
+
+            res.send(rows);
+        }catch(e){
+            res.send({err: e});
+        }
+
+    },
+
+    async insertFood(req, res){
+
+        const {food, client} = req.body;
+
+        try{
+
+            const insert = await db.query(
+                'INSERT INTO car (food, qnt, client) VALUES ($1,$2,$3)',
+                [food, 1, client]
+            );
+
+            res.send({msg: "Food inserted in car"});
+
+        }catch(e){
+            res.send({err: e});
+        }
+
+    },
+
+    async deleteFoodInCar(req, res){
+
+        const {food} = req.query;
+
+        try{
+            const {rows} = await db.query(
+                'DELETE FROM car WHERE food=$1',
+                [food]
+            );
+
+            res.send({msg: "Food deleted"});
+        }catch(e){
+            res.send({err:e});
+        }
+
+    },
+
+    async addQntInCar(req, res){
+
+        const {food, qnt} = req.body;
+
+        try{
+            const {rows} = await db.query(
+                'SELECT * FROM car WHERE food=$1',
+                [food]
+            );
+
+            const newQnt = rows[0].qnt + qnt;
+
+            const add = await db.query(
+                'UPDATE car SET qnt=$2 WHERE food=$1',
+                [food, newQnt]
+            );
+
+            res.send({msg: "Food Incremented"});
+        }catch(e){
+            res.send({err: e});
+        }
+
     }
 }
