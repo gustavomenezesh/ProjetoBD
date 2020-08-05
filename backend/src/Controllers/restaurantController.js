@@ -7,15 +7,9 @@ const base64ToImage = require('base64-to-image');
 module.exports = {
 
     async create(req, res){
-        const {name, email, adress, pass, categ, status, tipo, image, entrega} = req.body;
-        //restCateg.toString();
-        
-        const path ='../../';
-        const optionalObj = {fileName: 'imagem', type:'png'};
+        const {name, email, adress, pass, categ, status, tipo, entrega} = req.body;
 
-        const imageInfo = base64ToImage(image,path,optionalObj);
-
-        gdrive.imageUpload(`${name}.png`, "./imagem.png", async (link) => {
+        gdrive.imageUpload(`${name}.png`, "./imagem.jpg", async (link) => {
 
             let {rows} = await db.query(
                 'INSERT INTO restaurants (name, email, adress,pass, categ, status, tipo, entrega) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
@@ -127,8 +121,8 @@ module.exports = {
         const {type} = req.query;
 
         const {rows} = await db.query(
-            'SELECT * FROM restaurants WHERE entrega=$1',
-            [type]
+            'SELECT * FROM restaurants WHERE entrega=$1 AND status=$2',
+            [type, true]
         );
 
         res.send(rows);

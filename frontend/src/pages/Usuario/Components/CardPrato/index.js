@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
+import api from '../../../../api';
 import './styles.css';
 
 const CardPrato = ({ prato }) => {
 
     const [ add, setAdd ] = useState('Adicionar ao carrinho')
-    const [ car, setCar ] = useState([]);
 
-    function handleAdd(id){
+    async function handleAdd(id){
+
+        const data = {
+            food: prato.id,
+            qnt: 1,
+            client: localStorage.getItem('id')
+        }
+
+        await api.post('carrinho', data);
 
         if (add === 'Adicionar ao carrinho'){
             setAdd('Adicionado com sucesso!');
