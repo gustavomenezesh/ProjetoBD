@@ -25,28 +25,12 @@ const CadastroClient = () => {
 
     }
 
-    function previewFile() {
-        var preview = document.querySelector('img');
-        var file    = document.querySelector('div input[type=file]').files[0];
-        var reader  = new FileReader();
-      
-        reader.onloadend = function () {
-          preview.src = reader.result;
-          setimage(preview.src);
-        }
-
+    function handleImage(e) {
         
-        if (file) {
-            
-            reader.readAsDataURL(file);
+        e.preventDefault();
+        let image = e.target.files[0];
 
-        } else {
-
-          preview.src = "";
-
-        }
-        
-
+        console.log(image);
     }
     
     async function handleSubmit(e) {
@@ -99,7 +83,7 @@ const CadastroClient = () => {
                     <img src={image} />
                     <div>
                         <h3>Foto do perfil</h3>
-                        <input type="file" onChange={previewFile} />
+                        <input type="file" name="uploadFile" onChange={handleImage} />
                     </div>
                 </div>
 

@@ -1,0 +1,66 @@
+.content {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    transition: all 0.3s ease-in-out;
+}
+
+.Cardrel {
+    transition: all 0.3s ease-in-out;
+}
+
+.rels {
+    display: grid;
+    align-items: center;
+    width: 100%;
+    grid-template-columns: auto auto auto;
+    gap: 5px;
+    padding: 40px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    background: #19b5fe;
+    color: white;
+    transition: all 1s ease-in-out;
+}
+
+.nada {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease-in-out;
+}
+
+
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+}
+
+.btn {
+    height: 50px;
+    min-width: 160px;
+    border-radius: 10px 10px 0 0;
+    border-bottom-right-radius: 100px;
+    border-top-right-radius: 100px;
+    border: none;
+    background: white;
+    color: #19b5fe;
+    padding: 10px;
+    padding-right: 60px;
+    padding-left: 20px;
+    font-weight: 700;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+
+.btn:hover {
+    color: white;
+    background: #19b5fe;
+}

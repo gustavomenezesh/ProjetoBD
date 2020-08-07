@@ -1,0 +1,43 @@
+.edit {
+    width: 100%;
+    margin-top: 40px;
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: #19b5fe;
+    background: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+.edit:hover {
+    background: #19b5fe;
+    color: white;
+}
+
+.card button[type="button"] {
+    margin-top: 5px;
+}
+
+.close {
+    display: none;
+}
+
+.card input {
+    display: none;
+}
+
+.card input {
+    margin-top: 20px;
+}
+
+.card .open {
+    display: block;
+}
+
+.desc {
+    text-align: center;
+}
+

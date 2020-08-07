@@ -9,27 +9,20 @@ module.exports = {
 
         const {restid, name, price, description, image} = req.body;
 
-        const path ='../../';
-        const optionalObj = {fileName: 'imagem', type:'png'};
-
-        const imageInfo = base64ToImage(image,path,optionalObj);
-
-        gdrive.imageUpload(`${name}.png`, "./imagem.png", async (link) => {
         
-            const insert = await db.query(
-                'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
-                [restid, name, price, description, link]
-            );
+        const insert = await db.query(
+            'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
+            [restid, name, price, description, image]
+        );
 
 
-            const {rows} = await db.query(
-                'SELECT * FROM foods_restaurant WHERE restid=$1',
-                [restid]
-            );
+        const {rows} = await db.query(
+            'SELECT * FROM foods_restaurant WHERE restid=$1',
+            [restid]
+        );
 
-            res.send(rows);
-
-        });
+        console.log(rows);
+        res.send(rows);
 
 
     },
@@ -37,6 +30,8 @@ module.exports = {
     async updateFood(req, res){
 
         const {id, price, restid} = req.body;
+
+        console.log(id, price, restid);
 
         const now = new Date();
 
@@ -92,19 +87,20 @@ module.exports = {
     },
 
     async deleteFood(req, res){
-        const {id} = req.body;
-
-        const {rows} = await db.query(
-            'DELETE FROM foods_restaurant WHERE id=$1',
-            [id]
-        );
+        const {id} = req.params;
 
         const deleted = await db.query(
             'DELETE FROM desconto WHERE food=$1',
             [id]
         );
 
+        const {rows} = await db.query(
+            'DELETE FROM foods_restaurant WHERE id=$1',
+            [id]
+        );
 
+
+        console.log(rows);
         res.send(rows);
     },
 
@@ -172,6 +168,23 @@ module.exports = {
         const { rows } = await db.query(
             'SELECT * FROM foods_restaurant WHERE id=$1', [id]
         )
+
+        res.send(rows);
+
+    },
+
+    async update(req, res){
+
+        const { id, name, description } = req.body;
+
+        let { rows } = await db.query(
+            'UPDATE foods_restaurant SET name=$1 WHERE id=$2', [name, id]
+        )
+
+        rows = await db.query(
+            'UPDATE foods_restaurant SET description=$1 WHERE id=$2', [description, id]
+        )
+        
 
         res.send(rows);
 
