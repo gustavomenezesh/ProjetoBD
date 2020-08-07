@@ -1,19 +1,13 @@
 const db = require('../db/db_connection');
 const gdrive = require('../../utils/gdrive');
-const base64ToImage = require('base64-to-image');
 
 module.exports = {
 
     async create(req, res){
 
-        const {name, email, adress, pass, tipo, image} = req.body;
+        const {name, email, adress, pass, tipo} = req.body;
 
-        const path ='../../';
-        const optionalObj = {fileName: 'imagem', type:'png'};
-
-        const imageInfo = base64ToImage(image,path,optionalObj);
-
-        gdrive.imageUpload(`${name}.png`, "./imagem.png", async (link) => {
+        gdrive.imageUpload(`${name}.png`, "./uploads/image.jpg", async (link) => {
             console.log(link);
             const {rows} = await db.query(
                 'INSERT INTO clients (name, email, adress, pass, tipo, image) VALUES ($1, $2, $3, $4, $5, $6)',
@@ -123,6 +117,11 @@ module.exports = {
         }catch(e){
             console.log(e.detail);
         }
+
+        const del = await db.query(
+            'DELETE FROM car WHERE client=$1',
+            [idclient]
+        );
 
         res.send({idfoods, value, idclient, date});
 
