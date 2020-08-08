@@ -5,15 +5,18 @@ const base64ToImage = require('base64-to-image');
 
 module.exports = {
 
-    async foodCreate(req, res){
+    async foodCreate(req, res, next){
 
         const {restid, name, price, description} = req.body;
+        const productImage = req.file;
 
-        gdrive.imageUpload(`${name}.png`, "./imagem.jpg", async (link) => {
+        console.log(productImage);
+
+        gdrive.imageUpload(`${name}.png`, "./uploads/image.jpg", async (link) => {
         
             const insert = await db.query(
                 'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
-                [restid, name, price, description, image]
+                [restid, name, price, description, link]
             );
 
 
@@ -22,7 +25,7 @@ module.exports = {
                 [restid]
             );
 
-
+            console.log(rows);
             res.send(rows);
         });
 

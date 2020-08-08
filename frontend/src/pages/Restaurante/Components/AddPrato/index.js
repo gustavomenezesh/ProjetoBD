@@ -8,9 +8,11 @@ const AddPrato = () => {
         restid: localStorage.getItem('id'),
         name: '',
         price: '',
-        description: '',
-        image: null 
+        description: ''
     })
+
+    const data = new FormData();
+    const [ productImage , setImage ] = useState('https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg')
 
     function handleClose(e){
         e.preventDefault()
@@ -24,11 +26,31 @@ const AddPrato = () => {
         const { name , value } = e.target;
 
         setFormData({...formData, [name]: value});
+        console.log(formData);
+    }
+
+    function handleImage(e) {
+        
+        e.preventDefault();
+        setImage(e.target.files[0]);
+
     }
 
     async function handleSubmit(e) {
 
-        await api.post('foodCreate', formData);
+        e.preventDefault();
+
+        const { restid, name, price, description } = formData;
+
+        data.append('restid', restid);
+        data.append('name', name);
+        data.append('price', price);
+        data.append('description', description);
+        data.append('productImage', productImage);
+
+        console.log(data);
+
+        await api.post('foodCreate', data);
 
     }
 
@@ -44,10 +66,10 @@ const AddPrato = () => {
             </div>
 
             <form onSubmit={handleSubmit}>
-
-                <input type="text" name="name" autoComplete="off" required onChange={handleChange}placeholder="Nome do prato"/>
-                <input type="float" name="price" autoComplete="off" required onChange={handleChange}placeholder="Preço"/>
-                <input type="text" name="description" onChange={handleChange}placeholder="Descrição"/>
+                <input type="file" onChange={handleImage}/>
+                <input type="text" name="name" autoComplete="off" required onChange={handleChange} placeholder="Nome do prato"/>
+                <input type="float" name="price" autoComplete="off" required onChange={handleChange} placeholder="Preço"/>
+                <input type="text" name="description" onChange={handleChange} placeholder="Descrição"/>
 
                 <button type="submit">Cadastrar</button>
 

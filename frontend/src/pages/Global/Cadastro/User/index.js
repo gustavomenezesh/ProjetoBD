@@ -32,8 +32,6 @@ const CadastroClient = () => {
         e.preventDefault();
         setImage(e.target.files[0]);
 
-        
-
     }
     
     async function handleSubmit(e) {
