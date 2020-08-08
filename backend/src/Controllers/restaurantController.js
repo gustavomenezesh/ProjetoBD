@@ -9,7 +9,7 @@ module.exports = {
     async create(req, res){
         const {name, email, adress, pass, categ, status, tipo, entrega} = req.body;
 
-        gdrive.imageUpload(`${name}.png`, "./imagem.jpg", async (link) => {
+        gdrive.imageUpload(`${name}.png`, "./uploads/image.jpg", async (link) => {
 
             let {rows} = await db.query(
                 'INSERT INTO restaurants (name, email, adress,pass, categ, status, tipo, entrega) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',

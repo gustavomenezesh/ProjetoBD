@@ -37,9 +37,12 @@ const upload = multer({
 routes.post('/clientsCreate', upload.single('productImage'), clientController.create);
 routes.post('/clientsUpdate', clientController.update);
 routes.post('/login', clientController.login);
+routes.post('/addAdress', clientController.addAdress);
+routes.get('/listAdress', clientController.listAdress);
 routes.post('/doOrder', clientController.do_order);
 routes.get('/filterOrders', clientController.filterOrders);
 routes.get('/user/:id', clientController.findUser);
+
 
 
 
@@ -61,7 +64,7 @@ routes.get('/rel3', restaurantController.rel3);
 routes.get('/teste', restaurantController.teste);
 
 //foods
-routes.post('/foodCreate', foodController.foodCreate);
+routes.post('/foodCreate', upload.single('productImage'), foodController.foodCreate);
 routes.post('/foodUpdate', foodController.updateFood);
 routes.post('/update', foodController.update);
 routes.delete('/foodDelete/:id', foodController.deleteFood);
