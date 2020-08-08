@@ -49,7 +49,7 @@ routes.get('/user/:id', clientController.findUser);
 //restaurant
 routes.post('/status', restaurantController.status);
 routes.post('/frete', restaurantController.frete);
-routes.post('/restaurantCreate', restaurantController.create);
+routes.post('/restaurantCreate', upload.single('productImage'), restaurantController.create);
 routes.get('/restaurants', restaurantController.index);
 routes.get('/delivery', restaurantController.delivery);
 routes.get('/populars', restaurantController.popular);

@@ -82,7 +82,7 @@ const CardCardapio = ({ prato }) => {
 
     return (
             <div className="card" id={prato.name}>
-                <img src="https://pngimg.com/uploads/burger_sandwich/burger_sandwich_PNG4114.png" alt="imagem prato" />
+                <img src={prato.image === null ? "https://pngimg.com/uploads/burger_sandwich/burger_sandwich_PNG4114.png" : prato.image} alt="imagem prato" />
                 <h3>{prato.name}</h3>
                 <span className="price">R$ {prato.price}</span>
                 <span className="desc">{prato.description}</span>

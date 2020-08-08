@@ -1,8 +1,8 @@
 .add-prato{
     position: absolute;
-    top: 200px;
+    top: 100px;
     border-radius: 20px;
-    background: white;
+    background: linear-gradient(180deg, #19b5fe, #87d9ff);
     display: none;
 }
 
@@ -14,12 +14,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px;
-    background: white;
+    padding: 70px;
+    width: 700px;
 }
 
-.add-prato form input {
-    max-width: 200px;
+.add-prato #add input {
+    width: 100%;
     margin-top: 20px;
 }
 
@@ -45,10 +45,12 @@
     font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    
 }
 
-.add-prato form button:hover {
-    background: #19b5fe;
+.add-prato #add button:hover {
+    background: green;
     color: white;
 }
 
@@ -70,10 +72,54 @@
     font-size: 20px;
     padding: 10px;
     cursor: pointer;
-    color: #19b5fe;
+    color: white;
     
 }
 
-.add-prato .close:hover {
+.add-prato .x:hover {
     color: red;
 }
+
+
+.add-prato #add input[type="file"] {
+
+    background: none;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    color: white;
+    
+
+}
+
+
+.add-prato #add input[type="file"]::-webkit-file-upload-button {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #19b5fe;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.5s ease-in-out;
+}
+
+.add-prato #add input[type="file"]::-webkit-file-upload-button:hover {
+
+    background: #e8f8ff;
+}
+
+.add-prato #add input[type="file"]::-webkit-input-placeholder {
+    color: white;
+}
+
+.add-prato #add input[type="file"]::-webkit-outer-spin-button{
+    display: initial;
+}
+
