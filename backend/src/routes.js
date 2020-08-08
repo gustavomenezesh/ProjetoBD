@@ -79,8 +79,8 @@ routes.delete('/carrinho', cartController.remove);
 routes.get('/categs', restaurantController.categs);
 
 routes.post('/sendImage', upload.single('productImage'), (req, res, next)=>{
-    console.log(req.file.path)
-    res.send(req.file.path);
+    console.log(req.body)
+    res.send(req.file);
 });
 
 
