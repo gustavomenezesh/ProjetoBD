@@ -3,9 +3,13 @@ const gdrive = require('../../utils/gdrive');
 
 module.exports = {
 
-    async create(req, res){
+    async create(req, res, next){
 
+        console.log(req);
         const {name, email, adress, pass, tipo} = req.body;
+        const {productImage} = req.file;
+
+        console.log(req.body);
 
         gdrive.imageUpload(`${name}.png`, "./uploads/image.jpg", async (link) => {
             console.log(link);
