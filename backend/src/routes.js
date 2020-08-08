@@ -37,9 +37,12 @@ const upload = multer({
 routes.post('/clientsCreate', upload.single('productImage'), clientController.create);
 routes.post('/clientsUpdate', clientController.update);
 routes.post('/login', clientController.login);
+routes.post('/addAdress', clientController.addAdress);
+routes.get('/listAdress', clientController.listAdress);
 routes.post('/doOrder', clientController.do_order);
 routes.get('/filterOrders', clientController.filterOrders);
 routes.get('/user/:id', clientController.findUser);
+
 
 
 
