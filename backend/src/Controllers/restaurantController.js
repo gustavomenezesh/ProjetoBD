@@ -236,7 +236,7 @@ module.exports = {
 
     async rel1(req, res){
 
-        const {id} = req.query; 
+        const { id } = req.query; 
 
         let maisPedidos = [];
 
@@ -278,7 +278,7 @@ module.exports = {
             [maisPedidos[0][0]]
         );
 
-        res.send({food: food.rows, qnt: maisPedidos[0][1]});
+        res.send({food: food.rows, qnt: maisPedidos[1][1]});
 
     },
 
@@ -623,6 +623,26 @@ module.exports = {
         console.log(now.toString())
 
         res.send({equal: Math.floor((now - promo.rows[0].data)/86400000)});
+    },
+
+    async status(req, res){
+
+        const { state, id } = req.query;
+
+        const { rows } = await db.query(
+            'UPDATE restaurants SET status=$1 WHERE id=$2', [state, id]
+        );
+
+        res.send(rows);
+    },
+
+    async frete(req, res) {
+
+        const { frete, id } = req.query;
+
+        const { rows } = await db.query(
+            'UPDATE restaurants SET entrega=$1 WHERE id=$2', [frete, id]
+        )
     }
 
 }

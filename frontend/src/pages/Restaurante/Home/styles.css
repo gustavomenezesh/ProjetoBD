@@ -1,0 +1,49 @@
+.cardapio {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+.cardapio h1 {
+    justify-self: center;
+    color: #19b5fe;
+}
+
+.cardapio .add {
+
+    height: 60px;
+    background: #19b5fe;
+
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+
+    margin-top: 20px;
+    cursor: pointer;
+
+    transition: all 0.1s ease-in-out;
+}
+
+.cardapio .add:hover {
+    box-shadow: inset 0px -4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 20px;
+}
+
+.modal-prato {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 500px;
+}

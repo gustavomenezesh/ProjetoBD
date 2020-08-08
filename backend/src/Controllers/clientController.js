@@ -7,9 +7,9 @@ module.exports = {
 
         console.log(req);
         const {name, email, adress, pass, tipo} = req.body;
-        const {productImage} = req.file;
+        const productImage = req.file;
 
-        console.log(req.body);
+        console.log(productImage);
 
         gdrive.imageUpload(`${name}.png`, "./uploads/image.jpg", async (link) => {
             console.log(link);

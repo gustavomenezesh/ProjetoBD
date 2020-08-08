@@ -5,11 +5,14 @@ const base64ToImage = require('base64-to-image');
 
 module.exports = {
 
-    async foodCreate(req, res){
+    async foodCreate(req, res, next){
 
         const {restid, name, price, description} = req.body;
+        const productImage = req.file;
 
-        gdrive.imageUpload(`${name}.png`, "./imagem.jpg", async (link) => {
+        console.log(productImage);
+
+        gdrive.imageUpload(`${name}.png`, "./uploads/image.jpg", async (link) => {
         
             const insert = await db.query(
                 'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
@@ -22,8 +25,8 @@ module.exports = {
                 [restid]
             );
 
+            console.log(rows);
             res.send(rows);
-
         });
 
 
@@ -32,6 +35,8 @@ module.exports = {
     async updateFood(req, res){
 
         const {id, price, name, description, restid} = req.body;
+
+        console.log(id, price, restid);
 
         const now = new Date();
 
@@ -92,19 +97,20 @@ module.exports = {
     },
 
     async deleteFood(req, res){
-        const {id} = req.body;
-
-        const {rows} = await db.query(
-            'DELETE FROM foods_restaurant WHERE id=$1',
-            [id]
-        );
+        const {id} = req.params;
 
         const deleted = await db.query(
             'DELETE FROM desconto WHERE food=$1',
             [id]
         );
 
+        const {rows} = await db.query(
+            'DELETE FROM foods_restaurant WHERE id=$1',
+            [id]
+        );
 
+
+        console.log(rows);
         res.send(rows);
     },
 
@@ -243,6 +249,23 @@ module.exports = {
         const { rows } = await db.query(
             'SELECT * FROM foods_restaurant WHERE id=$1', [id]
         )
+
+        res.send(rows);
+
+    },
+
+    async update(req, res){
+
+        const { id, name, description } = req.body;
+
+        let { rows } = await db.query(
+            'UPDATE foods_restaurant SET name=$1 WHERE id=$2', [name, id]
+        )
+
+        rows = await db.query(
+            'UPDATE foods_restaurant SET description=$1 WHERE id=$2', [description, id]
+        )
+        
 
         res.send(rows);
 

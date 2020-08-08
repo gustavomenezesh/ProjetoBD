@@ -7,7 +7,7 @@ const Card = ({ restaurant }) => {
     return (
 
         <div className="content-box">
-            <img src={"https://i.pinimg.com/originals/af/7a/c8/af7ac8de430e437391d613ccb52eede3.png"} />
+            <img src="https://i.pinimg.com/originals/af/7a/c8/af7ac8de430e437391d613ccb52eede3.png" />
             <div>
                 <h2>{restaurant.name}</h2>
                 <h4 className={restaurant.status ? "open" : "close"}>{restaurant.status ? "Aberto" : "Fechado"}</h4>

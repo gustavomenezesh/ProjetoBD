@@ -5,7 +5,7 @@ import api from '../../../api';
 import './styles.css';
 import { useHistory } from 'react-router-dom';
 
-const ProfileClient = () => {
+const ProfileRestaurant = () => {
 
     const [ formData, setFormData ] = useState({
         id: Number(localStorage.getItem('id')),
@@ -45,8 +45,7 @@ const ProfileClient = () => {
         await api.post('clientsUpdate', formData);
 
         history.push('/home');
-        
-
+    
     }    
 
     return (
@@ -56,7 +55,7 @@ const ProfileClient = () => {
 
                 <div className="space"></div>
 
-                <form className="form-box" onSubmit={handleSubmit} >
+                <form className="form-box" >
                     
                     <h2>Perfil</h2>
                     <input type="name" onChange={handlehangeInput} name="name" placeholder="Nome" value={formData.name}/>
@@ -74,4 +73,4 @@ const ProfileClient = () => {
 
 }
 
-export default ProfileClient;
+export default ProfileRestaurant;

@@ -166,7 +166,7 @@ const User = () => {
                 </div>
                 { selectFilter ? <div className="filter-2"><h2>Buscando por "{filter}"</h2> <button type="submit" className="button" onClick={handleCleanFilter} >Limpar filtro</button> </div> : null }
                 { restaurants.length === 0 ? <div className="err"><h2>Nenhum resultado encontrado.</h2></div> : null}
-                <div className="cards">
+                <div className="cards-rest">
 
                     {restaurants.map(restaurant => (
                         <Link className="Link" to="/restaurant" onClick={() => handleOpenRestaurant(restaurant.id)} ><Card restaurant={restaurant} /></Link>

@@ -9,8 +9,7 @@ const base64ToImage = require('base64-to-image');
 
 const CadastroClient = () => {
 
-    const [ image, setimage ] = useState('https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4');
-    const [ URLimage, setURLiamge ] = useState('');
+    const [ productImage, setImage ] = useState('https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4');
     const history = useHistory();
     const [ formData, setFormData ] = useState({
         name: '',
@@ -19,6 +18,7 @@ const CadastroClient = () => {
         pass: '',
         image: ''
     })
+    const data = new FormData();
 
     function handleChangeInput(e) {
         
@@ -27,27 +27,10 @@ const CadastroClient = () => {
 
     }
 
-    function previewFile() {
-        var preview = document.querySelector('img');
-        var file    = document.querySelector('div input[type=file]').files[0];
-        var reader  = new FileReader();
-      
-        reader.onloadend = function () {
-          preview.src = reader.result;
-          setimage(preview.src);
-        }
-
+    function handleImage(e) {
         
-        if (file) {
-            
-            reader.readAsDataURL(file);
-
-        } else {
-
-          preview.src = "";
-
-        }
-        
+        e.preventDefault();
+        setImage(e.target.files[0]);
 
     }
     
@@ -57,21 +40,12 @@ const CadastroClient = () => {
 
         const { name, email, pass, adress } = formData;
 
-        /*const path ='../../../../../../backend';
-        const optionalObj = {fileName: 'imagem', type:'png'};
-        
-
-        const imageInfo = base64ToImage(image,path,optionalObj);
-        console.log({ name, email, pass, adress })*/
-
-        const data = {
-            name,
-            email,
-            adress,
-            pass,
-            tipo: 'client',
-            image,
-        }
+        data.append('name', name);
+        data.append('email', email);
+        data.append('adress', adress);
+        data.append('pass', pass);
+        data.append('tipo', 'client');
+        data.append('productImage', productImage);
 
         console.log(data);
 
@@ -101,15 +75,15 @@ const CadastroClient = () => {
                 </span>
 
             </aside>
-            <form className="form-box" onSubmit={handleSubmit}>
+            <form className="form-box" onSubmit={handleSubmit} >
 
                 <h2>Cadastro</h2>
 
                 <div className="image">
-                    <img src={image} />
+                    <img src={productImage} />
                     <div>
                         <h3>Foto do perfil</h3>
-                        <input type="file" onChange={previewFile} />
+                        <input type="file" name="uploadFile" onChange={handleImage} />
                     </div>
                 </div>
 

@@ -8,11 +8,12 @@ import Cart from './pages/Usuario/Carrinho';
 import Profile from './pages/Usuario/Profile';
 import ViewRest from './pages/Usuario/ViewRestaurant';
 import Path from './api/auth';
+import PathProfile from './api/pathprofile';
+import Rel from './pages/Restaurante/Relatorio';
 /* import Login from './pages/login'
 import Cadastroc from './pages/cadastroC';
 import Cadastror from './pages/CadastroR';
 import Option from './pages/Option';
-import Path from './api/auth';
 import Profile from './utils/profile/profile'; */
 
 
@@ -39,9 +40,10 @@ const Routes = () => {
                 <Route path="/" component={Home} exact/>
                 <Route path="/cadastro" component={Cadastro} />
                 <PrivateRoute path="/home" component={Path} />
-                <Route path="/profile" component={Profile} />
+                <Route path="/profile" component={PathProfile} />
                 <Route path="/cart" component={Cart} />
                 <Route path="/restaurant" component={ViewRest} />
+                <Route path="/relatorios" component={Rel} />
                 {/* 
                 <Route path="/cadastror" component={Cadastror} />
                 <PrivateRoute path="/home" component={Path} /> */}

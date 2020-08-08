@@ -1,0 +1,79 @@
+.add-prato{
+    position: absolute;
+    top: 200px;
+    border-radius: 20px;
+    background: white;
+    display: none;
+}
+
+.open {
+    display: block;
+}
+
+.add-prato form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    background: white;
+}
+
+.add-prato form input {
+    max-width: 200px;
+    margin-top: 20px;
+}
+
+.add-prato form input:first-child {
+    margin: 0;
+}
+
+.add-prato form input:nth-last-child(2) {
+    margin-bottom: 20px;
+}
+
+.add-prato form button {
+    height: 50px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #19b5fe;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    background: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.add-prato form button:hover {
+    background: #19b5fe;
+    color: white;
+}
+
+.add-prato .div {
+    position: relative;
+    top: 20px;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    
+}
+
+.add-prato div {
+    width: 80%;
+}
+
+.add-prato .x {
+    align-self: flex-end;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    color: #19b5fe;
+    
+}
+
+.add-prato .close:hover {
+    color: red;
+}
