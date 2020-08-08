@@ -10,7 +10,7 @@ module.exports = {
         const {restid, name, price, description} = req.body;
         const productImage = req.file;
 
-        console.log(productImage);
+        console.log(req);
 
         gdrive.imageUpload(`${name}.png`, "./uploads/image.jpg", async (link) => {
         
