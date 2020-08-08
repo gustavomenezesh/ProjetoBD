@@ -8,11 +8,12 @@ module.exports = {
 
     async create(req, res){
         const {name, email, adress, pass, categ, status, tipo, entrega} = req.body;
+        const productImage = req.file;
 
-        gdrive.imageUpload(`${name}.png`, "./imagem.jpg", async (link) => {
+        gdrive.imageUpload(`${name}.png`, "./uploads/image.jpg", async (link) => {
 
             let {rows} = await db.query(
-                'INSERT INTO restaurants (name, email, adress,pass, categ, status, tipo, entrega) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+                'INSERT INTO restaurants (name, email, adress,pass, categ, status, tipo, image, entrega) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
                 [name, email, adress, pass, categ, status, tipo, link, entrega]
             );
 
@@ -22,7 +23,6 @@ module.exports = {
             );
 
             const restid = rows.rows[0].id;
-            console.log(id);
 
             const string_categ = categ.toString();
             

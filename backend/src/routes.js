@@ -46,7 +46,7 @@ routes.get('/user/:id', clientController.findUser);
 //restaurant
 routes.post('/status', restaurantController.status);
 routes.post('/frete', restaurantController.frete);
-routes.post('/restaurantCreate', restaurantController.create);
+routes.post('/restaurantCreate', upload.single('productImage'), restaurantController.create);
 routes.get('/restaurants', restaurantController.index);
 routes.get('/delivery', restaurantController.delivery);
 routes.get('/populars', restaurantController.popular);
@@ -61,7 +61,7 @@ routes.get('/rel3', restaurantController.rel3);
 routes.get('/teste', restaurantController.teste);
 
 //foods
-routes.post('/foodCreate', foodController.foodCreate);
+routes.post('/foodCreate', upload.single('productImage'), foodController.foodCreate);
 routes.post('/foodUpdate', foodController.updateFood);
 routes.post('/update', foodController.update);
 routes.delete('/foodDelete/:id', foodController.deleteFood);

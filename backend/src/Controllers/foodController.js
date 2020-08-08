@@ -7,7 +7,7 @@ module.exports = {
 
     async foodCreate(req, res, next){
 
-        const {restid, name, price, description} = req.body;
+        const { restid, name, price, description } = req.body;
         const productImage = req.file;
 
         console.log(productImage);

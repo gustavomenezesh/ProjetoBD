@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import '../styles.css';
 
 import api from '../../../../api';
 
 const CadastroRest = () => {
 
-    const [ image, setimage ] = useState('https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4');
-    const [ URLimage, setURLiamge ] = useState('');
+    const [ image, setImage ] = useState('https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4');
     const [ items, setItems ] = useState([]);
     const [ selectItems, setSelectedItems ] = useState([]);
     const [ formData, setFormData ] = useState({
@@ -16,6 +15,8 @@ const CadastroRest = () => {
         adress: '',
         pass: '',
     })
+    const data = new FormData();
+    const history = useHistory()
 
     function handleChangeInput(e) {
         
@@ -24,32 +25,11 @@ const CadastroRest = () => {
 
     }
 
-    
-    function previewFile() {
+    function handleImage(e) {
+        
+        e.preventDefault();
+        setImage(e.target.files[0]);
 
-        var preview = document.querySelector('img');
-        var file    = document.querySelector('input[type=file]').files[0];
-        var reader  = new FileReader();
-        
-        reader.onloadend = function () {
-            preview.src = reader.result.replace("data:image/png;base64,", "");
-            preview.src.replace("data:image/jpeg;base64,", "")
-            preview.src.replace("data:image/bmp;base64,", "")
-        }
-        
-        if (!file) {
-            
-            setimage(reader.readAsDataURL(file));
-            setURLiamge(preview.src.replace("http://localhost:3000/", ""));
-            
-        } else {
-            
-            setimage('https://raw.githubusercontent.com/ViniciusSantos31/ProjetoBD/master/front-end/src/foto.png');
-            
-        }
-        
-        console.log(image);
-        
     }
     
     async function handleSubmit(e) {
@@ -58,25 +38,22 @@ const CadastroRest = () => {
 
         const { name, email, pass, adress } = formData;
         const categ = selectItems;
-        const image = image;
 
-        const data = {
-            name,
-            email,
-            adress,
-            pass,
-            categ,
-            status: false,
-            tipo: 'restaurant',
-            image,
-            entrega: true /* == entrega rapida */
-        }
-
-        console.log(data);
+        data.append('name', name);
+        data.append('email', email);
+        data.append('adress', adress);
+        data.append('pass', pass);
+        data.append('categ', categ);
+        data.append('status', Boolean(false));
+        data.append('tipo', 'restaurant');
+        data.append('productImage', image);
+        data.append('entrega', Boolean(false));
 
         await api.post('restaurantCreate', data);
+        history.push('/');
     
     }
+
     useEffect(() => {
 
         api.get('categs').then(response => {
@@ -120,7 +97,7 @@ const CadastroRest = () => {
                     <img src={image} />
                     <div>
                         <h3>Logo do restaurante</h3>
-                        <input type="file" id="file-id" onChange={previewFile}/>
+                        <input type="file" id="file-id" onChange={handleImage}/>
                     </div>
                 </div>
 

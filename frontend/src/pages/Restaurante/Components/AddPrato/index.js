@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import './styles.css'
 import api from '../../../../api';
+import { useHistory } from 'react-router-dom';
 
 const AddPrato = () => {
 
+    const data_food = new FormData();
     const [ formData, setFormData ] = useState({
         restid: localStorage.getItem('id'),
         name: '',
         price: '',
         description: ''
     })
+    const [ productImage, setImage ] = useState('https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg')
+    const history = useHistory()
 
-    const data = new FormData();
-    const [ productImage , setImage ] = useState('https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg')
 
     function handleClose(e){
         e.preventDefault()
@@ -23,7 +25,7 @@ const AddPrato = () => {
 
     function handleChange(e){
 
-        const { name , value } = e.target;
+        const { name, value } = e.target;
 
         setFormData({...formData, [name]: value});
         console.log(formData);
@@ -42,15 +44,25 @@ const AddPrato = () => {
 
         const { restid, name, price, description } = formData;
 
-        data.append('restid', restid);
-        data.append('name', name);
-        data.append('price', price);
-        data.append('description', description);
-        data.append('productImage', productImage);
+        data_food.append('restid', restid);
+        data_food.append('name', name);
+        data_food.append('price', price);
+        data_food.append('description', description);
+        data_food.append('productImage', productImage);
 
-        console.log(data);
+        console.log(productImage);
 
-        await api.post('foodCreate', data);
+        await api.post('foodCreate', data_food);
+
+        const div = document.querySelector('.add-prato');
+        div.classList.remove('open');
+
+        setFormData({
+            restid: localStorage.getItem('id'),
+            name: '',
+            price: '',
+            description: ''
+        })
 
     }
 
@@ -65,8 +77,8 @@ const AddPrato = () => {
 
             </div>
 
-            <form onSubmit={handleSubmit}>
-                <input type="file" onChange={handleImage}/>
+            <form onSubmit={handleSubmit} id="add">
+                <input type="file" name="uploadFile" onChange={handleImage} />
                 <input type="text" name="name" autoComplete="off" required onChange={handleChange} placeholder="Nome do prato"/>
                 <input type="float" name="price" autoComplete="off" required onChange={handleChange} placeholder="Preço"/>
                 <input type="text" name="description" onChange={handleChange} placeholder="Descrição"/>
