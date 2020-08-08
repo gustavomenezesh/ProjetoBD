@@ -4,9 +4,37 @@ const routes = Router();
 const restaurantController = require('./Controllers/restaurantController');
 const foodController = require('./Controllers/foodController');
 const cartController = require('./Controllers/cartController');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './uploads/');
+  },
+  filename: function(req, file, cb) {
+    cb(null, "image.jpg");
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  };
+
+const upload = multer({
+    storage: storage,
+    limits: {
+      fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+  });
+  
 
 //users
-routes.post('/clientsCreate', clientController.create);
+routes.post('/clientsCreate', upload.single('productImage'), clientController.create);
 routes.post('/clientsUpdate', clientController.update);
 routes.post('/login', clientController.login);
 routes.post('/doOrder', clientController.do_order);
@@ -49,6 +77,11 @@ routes.delete('/carrinho', cartController.remove);
 
 //categorias
 routes.get('/categs', restaurantController.categs);
+
+routes.post('/sendImage', upload.single('productImage'), (req, res, next)=>{
+    console.log(req.file.path)
+    res.send(req.file.path);
+});
 
 
 module.exports = routes;

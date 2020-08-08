@@ -5,10 +5,11 @@ import { ReactFileReader } from 'react-file-reader';
 import '../styles.css';
 import api from '../../../../api';
 
+const base64ToImage = require('base64-to-image');
+
 const CadastroClient = () => {
 
-    const [ image, setimage ] = useState('https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4');
-    const [ URLimage, setURLiamge ] = useState('');
+    const [ productImage, setImage ] = useState('https://avatars2.githubusercontent.com/u/41171735?s=460&u=5a307d5d50f636d5e18073c378cda7bd4a9dcd72&v=4');
     const history = useHistory();
     const [ formData, setFormData ] = useState({
         name: '',
@@ -17,6 +18,7 @@ const CadastroClient = () => {
         pass: '',
         image: ''
     })
+    const data = new FormData();
 
     function handleChangeInput(e) {
         
@@ -28,9 +30,10 @@ const CadastroClient = () => {
     function handleImage(e) {
         
         e.preventDefault();
-        let image = e.target.files[0];
+        setImage(e.target.files[0]);
 
-        console.log(image);
+        
+
     }
     
     async function handleSubmit(e) {
@@ -38,14 +41,13 @@ const CadastroClient = () => {
         e.preventDefault();
 
         const { name, email, pass, adress } = formData;
-        const data = {
-            name,
-            email,
-            adress,
-            pass,
-            tipo: 'client',
-            image,
-        }
+
+        data.append('name', name);
+        data.append('email', email);
+        data.append('adress', adress);
+        data.append('pass', pass);
+        data.append('tipo', 'client');
+        data.append('productImage', productImage);
 
         console.log(data);
 
@@ -75,12 +77,12 @@ const CadastroClient = () => {
                 </span>
 
             </aside>
-            <form className="form-box" onSubmit={handleSubmit}>
+            <form className="form-box" onSubmit={handleSubmit} >
 
                 <h2>Cadastro</h2>
 
                 <div className="image">
-                    <img src={image} />
+                    <img src={productImage} />
                     <div>
                         <h3>Foto do perfil</h3>
                         <input type="file" name="uploadFile" onChange={handleImage} />

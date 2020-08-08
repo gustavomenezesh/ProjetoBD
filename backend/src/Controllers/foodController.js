@@ -7,29 +7,31 @@ module.exports = {
 
     async foodCreate(req, res){
 
-        const {restid, name, price, description, image} = req.body;
+        const {restid, name, price, description} = req.body;
 
+        gdrive.imageUpload(`${name}.png`, "./imagem.jpg", async (link) => {
         
-        const insert = await db.query(
-            'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
-            [restid, name, price, description, image]
-        );
+            const insert = await db.query(
+                'INSERT INTO foods_restaurant (restid, name, price, description, image) VALUES ($1,$2,$3,$4,$5)',
+                [restid, name, price, description, image]
+            );
 
 
-        const {rows} = await db.query(
-            'SELECT * FROM foods_restaurant WHERE restid=$1',
-            [restid]
-        );
+            const {rows} = await db.query(
+                'SELECT * FROM foods_restaurant WHERE restid=$1',
+                [restid]
+            );
 
-        console.log(rows);
-        res.send(rows);
+
+            res.send(rows);
+        });
 
 
     },
 
     async updateFood(req, res){
 
-        const {id, price, restid} = req.body;
+        const {id, price, name, description, restid} = req.body;
 
         console.log(id, price, restid);
 
@@ -76,6 +78,11 @@ module.exports = {
             const desc2 = await db.query(
                 'INSERT INTO desconto (percent, data, food, validade, restid) VALUES ($1, $2, $3, $4, $5)',
                 [percent, now, id, true, restid]
+            );
+
+            const alter = await db.query(
+                'UPDATE foods_restaurant SET name=$2, description=$3 WHERE food=$1',
+                [id, name, description]
             );
 
         }catch(e){
@@ -159,6 +166,77 @@ module.exports = {
 
         res.send(menu);
 
+    },
+
+    async indexCar(req, res){
+
+        try{
+            const { rows } = await db.query('SELECT * FROM car', []);
+
+            res.send(rows);
+        }catch(e){
+            res.send({err: e});
+        }
+
+    },
+
+    async insertFood(req, res){
+
+        const {food, client} = req.body;
+
+        try{
+
+            const insert = await db.query(
+                'INSERT INTO car (food, qnt, client) VALUES ($1,$2,$3)',
+                [food, 1, client]
+            );
+
+            res.send({msg: "Food inserted in car"});
+
+        }catch(e){
+            res.send({err: e});
+        }
+
+    },
+
+    async deleteFoodInCar(req, res){
+
+        const {food} = req.query;
+
+        try{
+            const {rows} = await db.query(
+                'DELETE FROM car WHERE food=$1',
+                [food]
+            );
+
+            res.send({msg: "Food deleted"});
+        }catch(e){
+            res.send({err:e});
+        }
+
+    },
+
+    async addQntInCar(req, res){
+
+        const {food, qnt} = req.body;
+
+        try{
+            const {rows} = await db.query(
+                'SELECT * FROM car WHERE food=$1',
+                [food]
+            );
+
+            const newQnt = rows[0].qnt + qnt;
+
+            const add = await db.query(
+                'UPDATE car SET qnt=$2 WHERE food=$1',
+                [food, newQnt]
+            );
+
+            res.send({msg: "Food Incremented"});
+        }catch(e){
+            res.send({err: e});
+        }
     },
 
     async indexOne(req, res){
