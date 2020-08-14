@@ -22,12 +22,21 @@
 
 .content-box img {
     width: 150px;
+    height: 150px;
     margin-right: 20px;
+    border-radius: 100%;
 }
 
 .content-box div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 16px;
     margin-right: 20px;
+}
+
+.content-box div h2 {
+    text-transform: uppercase;
 }
 
 .content-box h2 {
@@ -36,6 +45,7 @@
 }
 
 .content-box .open {
+    width: 100%;
     display: block;
     font-size: 20px;
     text-transform: uppercase;
@@ -54,7 +64,7 @@
 .content-box div + div {
     height: 100%;
     position: relative;
-    transform: rotate(90deg);
+    /* transform: rotate(90deg); */
     left: auto;
     font-weight: lighter;
     color: #0D5B80;
@@ -64,3 +74,37 @@
     font-size: 20px;
     font-weight: normal;
 }
+
+.content-box .info {
+    display: flex;
+    flex-direction: row;
+}
+
+.content-box .info .name-info{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    text-align: left;
+}
+
+.content-box .info .name-info .state {
+    margin: 0;
+    align-self: flex-start;
+}
+
+.content-box .info .name-info div .categs {
+    margin-left: 10px;
+    color: gray;
+    opacity: 0.6;
+}
+
+.content-box .info .name-info div .categs + .categs:before {
+    content: '•';
+    margin-right: 10px;
+}
+
+.content-box:hover .info .name-info div .categs {
+    color: white;
+    opacity: 0.6;
+}
+

@@ -5,11 +5,11 @@ import Home from './pages/Global/Home';
 import Cadastro from './pages/Global/Cadastro';
 /* import User from './pages/Usuario/Home'; */
 import Cart from './pages/Usuario/Carrinho';
-import Profile from './pages/Usuario/Profile';
 import ViewRest from './pages/Usuario/ViewRestaurant';
 import Path from './api/auth';
 import PathProfile from './api/pathprofile';
 import Rel from './pages/Restaurante/Relatorio';
+import MyOrders from './pages/Usuario/MeusPedidos';
 /* import Login from './pages/login'
 import Cadastroc from './pages/cadastroC';
 import Cadastror from './pages/CadastroR';
@@ -44,6 +44,7 @@ const Routes = () => {
                 <Route path="/cart" component={Cart} />
                 <Route path="/restaurant" component={ViewRest} />
                 <Route path="/relatorios" component={Rel} />
+                <Route path="/orders" component={MyOrders} />
                 {/* 
                 <Route path="/cadastror" component={Cadastror} />
                 <PrivateRoute path="/home" component={Path} /> */}

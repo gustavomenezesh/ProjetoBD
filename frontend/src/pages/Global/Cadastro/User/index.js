@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { ReactFileReader } from 'react-file-reader';
 
 import '../styles.css';
 import api from '../../../../api';
-
-const base64ToImage = require('base64-to-image');
 
 const CadastroClient = () => {
 
@@ -80,7 +77,7 @@ const CadastroClient = () => {
                 <h2>Cadastro</h2>
 
                 <div className="image">
-                    <img src={productImage} />
+                    <img alt="avatar" src={formData.image} />
                     <div>
                         <h3>Foto do perfil</h3>
                         <input type="file" name="uploadFile" onChange={handleImage} />

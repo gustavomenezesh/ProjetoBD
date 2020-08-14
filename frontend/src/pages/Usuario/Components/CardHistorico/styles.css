@@ -1,4 +1,4 @@
-.card-3 {
+.card-4 {
 
     display: flex;
     flex-direction: column;
@@ -6,28 +6,28 @@
     width: 100%;
     height: 100%;
     max-width: 300px;
-    border-radius: 10px;
     padding: 40px;
+    border-radius: 10px;
     background: white;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
 
 }
 
-.card-3 img {
-    width: 200px;
-    height: 200px;
+.card-4 img {
+    width: 150px;
+    height: 150px;
     border-radius: 100%;
 }
 
-.card-3 h3 {
+.card-4 h3 {
     color: #19b5fe;
 }
-.card-3 span {
+.card-4 span {
     font-weight: normal;
     color: #0D5B80;
 }
 
-.card-3 .count {
+.card-4 .count {
     border-radius: 25%;
     display: flex;
     align-items: center;
@@ -37,19 +37,30 @@
     cursor: pointer;
 }
 
-.card-3 div {
+.card-4 .comidas {
     width: 100%;
     max-width: max-content;
     display: flex;
+    flex-direction: column;
     margin-top: 20px;
-    justify-content: center;
+    margin-bottom: 30px;
+    text-align: right;
     align-items: center;
-    background: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
-    border-radius: 9px;
 }
 
-.card-3 div button {
+.card-4 .comidas .comida {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0.5;
+}
+
+.card-4 .comidas .comida span + span{
+    margin-left: 30px;
+}
+
+.card-4 div button {
     outline: none;
     border: none;
     color: #19b5fe;
@@ -57,12 +68,17 @@
     
 }
 
-.card-3 div button:hover {
+.card-4 div button:hover {
     background: #19b5fe;
     color: white;
 }
 
-.card-3 div p {
+.card-4 .total {
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.card-4 div p {
     width: 30px;
     display: flex;
     align-items: center;
@@ -73,31 +89,28 @@
     margin-right: 10px;
 }
 
-.card-3 button[type="button"]{
+.card-4 button[type="button"]{
     width: 100%;
-    margin-top: 40px;
     outline: none;
     border: none;
     padding: 10px;
     border-radius: 10px;
-    color: green;
+    color: #19b5fe;
     background: white;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transition: all 0.4s ease-in-out;
 }
 
-.card-3 button[type="button"]:hover{
-    background: green;
+.card-4 button[type="button"]:hover {
+    background: #19b5fe;
     color: white;
 }
 
-.card-3 .p {
-    margin-top: 20px;
+.card-4 h3 + span {
+    margin-top: 10px;
+}
+
+.card-4 h3, .card-4 h3 + span {
     text-align: center;
 }
-
-.nop {
-    background: red;
-}
-

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import './styles.css';
 import api from '../../../../api';
-import { CircularProgress } from '@material-ui/core';
 
 const CardCardapio = ({ prato }) => {
 
-    const [ progress , setProgress ] = useState(true);
     const [ info, setInfo ] = useState({
         id: prato.id,
         name: prato.name,
@@ -44,15 +42,12 @@ const CardCardapio = ({ prato }) => {
             nameInput.classList.remove('open');
             priceInput.classList.remove('open');
             descInput.classList.remove('open');
-            
-            setProgress(true);
         
-            await api.post('update', info);
+            await api.post('foodUpdate', info);
 
                 
             button.textContent = 'Editar'
-            
-            setProgress(false);
+        
             h3.classList.remove('close');
             span1.classList.remove('close');
             span2.classList.remove('close');

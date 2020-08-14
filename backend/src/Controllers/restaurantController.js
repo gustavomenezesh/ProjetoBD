@@ -278,18 +278,20 @@ module.exports = {
             [maisPedidos[0][0]]
         );
 
-        res.send({food: food.rows, qnt: maisPedidos[1][1]});
+        res.send({food: food.rows, qnt: maisPedidos[0][1], image: food.rows.image});
 
     },
 
     async rel2(req, res){
 
         const now = new Date();
-        const {period, id} = req.body;
+        const {period, id} = req.query;
+
+        console.log(period, id);
 
         const limit = new Date(now - 86400000*period);
         const {rows} = await db.query(
-            'SELECT * FROM pedido WHERE data_pedido < $1 AND data_pedido > $2 AND restid=$3',
+            'SELECT * FROM pedido WHERE data_pedido < $1 AND data_pedido >= $2 AND restid=$3',
             [now, limit, id]
         );
 
@@ -375,7 +377,7 @@ module.exports = {
                                 medPrice = (1-med.percent)*foods.rows[j].price;
                             }
                             
-                            medias.push({name: foods.rows[j].name, medPrice: medPrice});
+                            medias.push({name: foods.rows[j].name, medPrice: medPrice, image: foods.rows[j].image});
 
                         }else{
 
@@ -383,7 +385,7 @@ module.exports = {
                                 return item.data < limit
                             });
                             const price = (1 - med.percent/100)*foods.rows[j].price;
-                            medias.push({name: foods.rows[j].name, medPrice: price});
+                            medias.push({name: foods.rows[j].name, medPrice: price, image: foods.rows[j].image});
 
                         }
                             
@@ -442,11 +444,11 @@ module.exports = {
                         }
                             
                         const med = sum/7;
-                        medias.push({name: foods.rows[j].name, medPrice: med});
+                        medias.push({name: foods.rows[j].name, medPrice: med, image: foods.rows[j].image});
                     }
 
                 }else{
-                    medias.push({name: foods.rows[j].name, medPrice: foods.rows[j].price});
+                    medias.push({name: foods.rows[j].name, medPrice: foods.rows[j].price, image: foods.rows[j].image});
                 }
                     
             }
