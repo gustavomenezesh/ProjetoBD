@@ -24,8 +24,6 @@ const ViewRest = () => {
         })
     }, [])
 
-    console.log(restaurant);
-
     return (
 
         <div className="main">
@@ -36,7 +34,7 @@ const ViewRest = () => {
                 <div className="top">
                     
                     <div className="title">
-                        <img src={restaurant.image} />
+                        <img src={ restaurant.image === null ? "https://i.pinimg.com/originals/af/7a/c8/af7ac8de430e437391d613ccb52eede3.png" : restaurant.image } />
                         <h2 className="h2">{restaurant.name}</h2>
 
                     </div>
@@ -49,12 +47,6 @@ const ViewRest = () => {
                     {cardapio.map(prato => (
                         <CardPrato  prato={prato} />
                     ))}
-                    {/* <CardPrato />
-                    <CardPrato />
-                    <CardPrato />
-                    <CardPrato />
-                    <CardPrato />
-                    <CardPrato /> */}
                 </div>
 
             </div>

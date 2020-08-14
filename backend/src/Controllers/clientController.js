@@ -116,11 +116,11 @@ module.exports = {
 
     async addAdress(req, res){
 
-        const {title, adress, client} = req.body;
+        const {title, adress, client, position} = req.body;
         try{
             const adrss = await db.query(
-                'INSERT INTO enderecos (title, adress, client) VALUES ($1, $2, $3)',
-                [title, adress, client]
+                'INSERT INTO enderecos (title, adress, client, position) VALUES ($1, $2, $3, $4)',
+                [title, adress, client, position]
             );
             res.send({msg: 'Endereço Cadastrado'});
         }catch(e){
@@ -147,7 +147,7 @@ module.exports = {
 
     async do_order(req, res){
 
-        const {idclient, idfoods, value, adress} = req.body;
+        const {idclient, idfoods, value, adress, restid, frete} = req.body;
         
         console.log(idfoods.toString());
 
@@ -155,17 +155,12 @@ module.exports = {
 
         try{
             let {rows} = await db.query(
-                'INSERT INTO pedido (idfoods, value, client, data_pedido, adress) VALUES ($1, $2, $3, $4, $5)',
-                [idfoods.toString(), value, idclient, date, adress]
+                'INSERT INTO pedido (idfoods, value, client, data_pedido, restid, adress, frete) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+                ['['+idfoods.toString()+']', value, idclient, date, restid, adress, frete]
             );
         }catch(e){
             console.log(e.detail);
         }
-
-        const del = await db.query(
-            'DELETE FROM car WHERE client=$1',
-            [idclient]
-        );
 
         res.send({idfoods, value, idclient, date});
 
@@ -174,16 +169,38 @@ module.exports = {
     async filterOrders(req, res){
 
         const {id} = req.query;
-        
+
         const { rows } = await db.query(
             'SELECT * FROM pedido WHERE client=$1',
             [id]
         );
-     
-        const sortedOrders = rows.sort((a, b)=>{
+
+        let sortedOrders = rows.sort((a, b)=>{
             return b.data_pedido - a.data_pedido
-        })
-        
+        });
+
+
+        for(let i = 0; i < sortedOrders.length; i++){
+
+            const foods=[];
+            sortedOrders[i].idfoods = JSON.parse(sortedOrders[i].idfoods); 
+
+            for(let j = 0; j < sortedOrders[i].idfoods.length; j=j+2){
+
+                const food = await db.query(
+                    'SELECT * FROM foods_restaurant WHERE id=$1',
+                    [sortedOrders[i].idfoods[j]]
+                );
+                console.log(food.rows[0].name);
+                foods.push({name: food.rows[0].name, qnt: sortedOrders[i].idfoods[j+1]});
+
+            }
+
+            sortedOrders[i].idfoods = foods;
+        }
+
+        console.log(sortedOrders);
+
         res.send(sortedOrders);
 
     }

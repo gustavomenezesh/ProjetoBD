@@ -6,7 +6,9 @@ import './styles.css';
 
 import gratis from '../../../assets/card1.png';
 import rapida from '../../../assets/card2.png';
-import { Link, useHistory } from 'react-router-dom';
+import dezconto from '../../../assets/card3.png';
+import promo from '../../../assets/cards4.png';
+import { Link } from 'react-router-dom';
 import api from '../../../api';
 
 
@@ -77,9 +79,12 @@ const User = () => {
             setRestaurants(response.data);
         })
 
+
     }, [])
 
-    const history = useHistory();
+
+    console.log(restaurants.sort((a,b) => a.name < b.name))
+    
 
     function handleOpenRestaurant( id ) {
 
@@ -93,7 +98,7 @@ const User = () => {
         
         if (input.value.length !== 0){
 
-            await api.get(`restaurantsByName?name=${input.value}`).then(response => {
+            await api.get(`restaurantsByName?name=${input.value.toLowerCase()}`).then(response => {
                 setRestaurants(response.data);
             })
 
@@ -105,7 +110,7 @@ const User = () => {
             api.get('restaurants').then(response => {
                 setRestaurants(response.data);
             })
-
+    
             setSelectFilter(false);
 
         }
@@ -124,11 +129,23 @@ const User = () => {
             })
             setFilter('Entrega grátis');
             setSelectFilter(true);
-        }else {
-            await api.get(`delivery?type=${false}`).then(response => {
+        }else if (click === 'rapida'){
+            await api.get(`delivery?type=${false}`).then(response => { 
                 setRestaurants(response.data);
             })
             setFilter('Entrega rápida');
+            setSelectFilter(true);
+        }else if (click === 'dezconto'){
+            await api.get(`populars`).then(response => {
+                setRestaurants(response.data);
+            })
+            setFilter('Restaurantes popular');
+            setSelectFilter(true);
+        }else {
+            await api.get('promotion').then(response => {
+                setRestaurants(response.data)
+            })
+            setFilter('Promoção');
             setSelectFilter(true);
         }
 
@@ -162,7 +179,8 @@ const User = () => {
                 <div className="promo">
                     <img src={gratis} alt="Frete grátis" name="gratis" onClick={handleFilterEntrega}/>
                     <img src={rapida} alt="Entrega Rápida" name="rapida" onClick={handleFilterEntrega} />
-                    <img src={gratis} alt="Promoções da semana" name="promo" onClick={handleFilterEntrega} />
+                    <img src={dezconto} alt="Promoções da semana" name="dezconto" onClick={handleFilterEntrega} />
+                    <img src={promo} alt="Promoções da semana" name="promo" onClick={handleFilterEntrega} />
                 </div>
                 { selectFilter ? <div className="filter-2"><h2>Buscando por "{filter}"</h2> <button type="submit" className="button" onClick={handleCleanFilter} >Limpar filtro</button> </div> : null }
                 { restaurants.length === 0 ? <div className="err"><h2>Nenhum resultado encontrado.</h2></div> : null}

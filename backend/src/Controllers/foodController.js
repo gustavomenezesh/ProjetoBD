@@ -58,7 +58,16 @@ module.exports = {
             }
 
             //console.log(rows);
-            let percent = 100 - 100*price/rows[0].price;
+            let percent;
+            console.log(price);
+            if(price < rows[0].price){
+
+                percent = 100 - 100*price/rows[0].price;
+
+            }else {
+                percent = 100*price/rows[0].price;
+
+            }
             percent = roundToXDigits(percent, 1);
             console.log(percent);
 
@@ -74,7 +83,7 @@ module.exports = {
                     'UPDATE desconto SET validade=false WHERE food=$1',
                     [id]
                 );
-                console.log('oi');
+               
             }
                 
 
@@ -105,7 +114,7 @@ module.exports = {
         );
 
         const {rows} = await db.query(
-            'DELETE FROM foods_restaurant WHERE id=$1',
+            'UPDATE foods_restaurant SET restid=null WHERE id=$1',
             [id]
         );
 
@@ -116,11 +125,11 @@ module.exports = {
 
     async searchFood(req, res){
         
-        const {name} = req.query;
+        const {id} = req.query;
         
         const {rows} = await db.query(
-            'SELECT * FROM foods_restaurant WHERE name LIKE $1',
-            [`%${name}%`]
+            'SELECT * FROM foods_restaurant WHERE id=$1',
+            [id]
         );
 
 
@@ -148,21 +157,23 @@ module.exports = {
 
             if(promo.rows.length){
                 menu.push({
+                        restid: Number(id),
                         id: rows[i].id,
                         name: rows[i].name, 
                         price: rows[i].price, 
                         description: rows[i].description, 
                         image: rows[i].image,
-                        percent: promo.rows[0].percent});
+                        percent: promo.rows[0].percent/100});
             }
             else{
                 menu.push({
+                    restid: Number(id),
                     id: rows[i].id,
                     name: rows[i].name, 
                     price: rows[i].price, 
                     description: rows[i].description, 
                     image: rows[i].image,
-                    percent: 0});
+                    percent: 0/100});
             }    
 
         }

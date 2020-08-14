@@ -66,7 +66,7 @@ const Sidebar = () => {
 
         <div className="sidebar">
             
-            <img src = {rest.image === null ? "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg" : rest.image} />
+            <img alt="avatar"src = {rest.image === null ? "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2017/03/Avatar.jpg" : rest.image} />
             <h3>{rest.name}</h3>
             <h4>{rest.adress}</h4>
 
@@ -88,7 +88,6 @@ const Sidebar = () => {
 
             <ul className="options">
                 <li className="option"><Link className="link"to="/home" onClick={handleClearStorage} >Início</Link></li>
-                <li className="option"> <Link className="link"to="/profile" onClick={handleClearStorage} >Editar Perfil</Link></li>
                 <li className="option" ><Link className="link"to="/relatorios" onClick={handleClearStorage} >Meus Relatórios</Link></li>
                 <li className="option"> <Link className="link" onClick={handleLogOut} >Sair</Link></li>
             </ul>

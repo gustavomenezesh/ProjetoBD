@@ -11,11 +11,13 @@ const Home = () => {
         pass: ''
     })
     const history = useHistory();
+    const [ noPass, setNoPass ] = useState(false);
 
     function handleinput(e) {
 
         const { name, value } = e.target;
         setFormData({...formData, [name]: value});
+        setNoPass(false)
 
 
     }
@@ -25,14 +27,20 @@ const Home = () => {
         e.preventDefault();
         const { data } = await api.post('login', formData);
 
-        localStorage.setItem('id', data[0].id);
-        localStorage.setItem('type', data[0].tipo);
-        
-        if (data.tipo !== null){
-            localStorage.setItem('isAuth', true);
-            history.push('/home');
+        if (data.length !== 0){
+            setNoPass(false);
+            localStorage.setItem('id', data[0].id);
+            localStorage.setItem('type', data[0].tipo);
+            
+            if (data.tipo !== null){
+                localStorage.setItem('isAuth', true);
+                history.push('/home');
+            }else {
+                localStorage.setItem('isAuth', false);
+            }
+
         }else {
-            localStorage.setItem('isAuth', false);
+            setNoPass(true);
         }
 
     }
@@ -55,9 +63,9 @@ const Home = () => {
             <form className="form-box" onSubmit={handleAuth}>
 
                 <h2>Login</h2>
-
-                <input name="email" onChange={handleinput} placeholder="Email" type="email" />
-                <input name="pass" onChange={handleinput} placeholder="Senha" type="password"/>
+                { noPass ? <span>Email ou senha incorretos!</span> : null }
+                <input name="email" required onChange={handleinput} placeholder="Email" type="email" />
+                <input name="pass" required onChange={handleinput} placeholder="Senha" type="password"/>
 
                 <button type="submit">Entrar</button>
                 <Link className="link" to="/cadastro">Cadastre-se, é sem frescura</Link>

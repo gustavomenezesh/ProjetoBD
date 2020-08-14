@@ -39,7 +39,7 @@ const CadastroRest = () => {
         const { name, email, pass, adress } = formData;
         const categ = selectItems;
 
-        data.append('name', name);
+        data.append('name', name.toLowerCase());
         data.append('email', email);
         data.append('adress', adress);
         data.append('pass', pass);
@@ -94,7 +94,7 @@ const CadastroRest = () => {
                 <h2>Cadastro</h2>
 
                 <div className="image">
-                    <img src={image} />
+                    <img alt="Avatar" src={image} />
                     <div>
                         <h3>Logo do restaurante</h3>
                         <input type="file" id="file-id" onChange={handleImage}/>

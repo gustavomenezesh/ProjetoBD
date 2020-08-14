@@ -10,11 +10,10 @@
 }
 
 .rels {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     width: 100%;
-    grid-template-columns: auto auto auto;
-    gap: 5px;
     padding: 40px;
     margin-right: 20px;
     margin-bottom: 30px;
@@ -24,7 +23,9 @@
 }
 
 .nada {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 5px;
     align-items: center;
     justify-content: center;
     color: white;
@@ -64,3 +65,9 @@
     color: white;
     background: #19b5fe;
 }
+
+.period {
+    width: 100%;
+    margin-bottom: 20px;
+}
+

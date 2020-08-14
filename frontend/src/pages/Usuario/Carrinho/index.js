@@ -1,45 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Sidebar from '../Components/SideBar';
 import CardPedido from '../Components/CardPedido';
 
+import { useSelector, useDispatch } from 'react-redux';
+import * as CartActions from '../../../store/modules/cart/actions';
+
 import './styles.css';
+import { useState } from 'react';
 import api from '../../../api';
+import { useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Cart = () => {
 
-    const [ car, setCar ] = useState([]);
-    const [ pratos, setPratos ] = useState([]);
-    const [ total, setTotal ] = useState(0);
-    const [ change, setChange ] = useState(false);
+    const car = useSelector(state =>
+        state.cart.map(plate => ({
+        ...plate,
+        subtotal: Math.trunc(plate.price * plate.qnt),
+        }))
+    );
 
-    useEffect (() => {
+    console.log(car);
 
-        api.get('carrinho').then(response => {
-            setCar(response.data);
+    const total = useSelector(state =>
+        state.cart.reduce((totalSum, product) => {
+          return totalSum + product.price * product.qnt;
+        }, 2)
+    );
+
+    const dispatch = useDispatch();
+    
+    function handleClearCart(car) {
+        dispatch(CartActions.clearCart(car));
+    }
+
+    const [ addresses, setAddresses] = useState([])
+
+    useEffect(() => {
+
+        api.get(`listAdress?id=${localStorage.getItem('id')}`).then(response => {
+            setAddresses(response.data);
         })
-        setChange(true);
+    })
 
-    }, [])
+    const finish = [];
+    const history = useHistory()
 
-    useEffect( () => {
+    
+    const [ bool, setBool ] = useState(false);
 
+    /* api.get(`restaurants/${food}`).then(response => {
+        setBool(response.data.entrega);
+    }) */
 
-        for (let i = 0; i < car.length; i++) {
-            const element = car[i];
-            api.get(`foods/${element.food}`).then(response => {
-                setPratos(response.data);
-                setTotal(total + (response.data[0].price * element.qnt));
-            })
+    async function handleFinish(e) {
+
+        car.map(pedido => {
+            finish.push(pedido.food);
+            finish.push(pedido.qnt);
+        })
+
+        const { data } =  await api.get(`user/${localStorage.getItem('id')}`);
+        const food = car[0].restid;
+
+        const pedido = {
+            idclient: Number(localStorage.getItem('id')),
+            idfoods: finish,
+            value: total,
+            adress: addresses[Number(localStorage.getItem('adress'))-1].adress,
+            restid: food,
+            frete: bool,
         }
 
+        const recibo = await api.post('doOrder', pedido);
+        console.log(recibo);
+        handleClearCart(car);
+        history.push('/orders');
 
-
-    }, [change])
-
-    function handleFinish() {
-        console.log(pratos)
     }
-    
+
     return (
 
         <div className="main">
@@ -47,11 +86,11 @@ const Cart = () => {
 
             <div className="main-content">
                 <div className="top">
-                    <button className="clear" type="submit" >Limpar Carrinho</button>
+                    <button className="clear" type="submit" onClick={ () => handleClearCart(car)} >Limpar Carrinho</button>
                     <div className="info-pedido">
                     
-                        <span>Total: R$ {total}</span>
-                        <button className="finish" type="submit" onClick={handleFinish} >Finalizar compra</button>
+                        <span>Total: R$ {total.toFixed(2)}</span>
+                        <button className="finish" type="submit" onClick={handleFinish}>Finalizar compra</button>
                     
                     </div>  
                 </div>

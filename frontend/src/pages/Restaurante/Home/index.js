@@ -1,13 +1,11 @@
 import React from 'react';
 import Sidebar from '../Components/SideBar';
-import { LinearProgress, CircularProgress } from '@material-ui/core';
 
 import './styles.css';
 import { useEffect, useState } from 'react';
 import api from '../../../api';
 
 import CardCardapio from '../Components/cardCardapio';
-import Modal from 'react-modal';
 import AddPrato from '../Components/AddPrato';
 
 const Rest = () => {
@@ -21,13 +19,6 @@ const Rest = () => {
         const div = document.querySelector('.add-prato');
         div.classList.add('open');
         
-    }
-
-    function handleClose(e){
-        e.preventDefault()
-
-        const div = document.querySelector('.add-prato');
-        div.classList.remove('open');
     }
 
     useEffect(() => {

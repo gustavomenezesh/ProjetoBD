@@ -1,58 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css';
 import api from '../../../../api';
+import { useDispatch, useSelector } from 'react-redux';
+import * as CartActions from '../../../../store/modules/cart/actions';
+
 
 const CardPedido = ({ prato }) => {
 
-    const [ count, setCount ] = useState(prato.qnt);
     const [ info, setInfo ] = useState([]);
 
-    useEffect( async () => {
+    useEffect(() => {
 
-        await api.get(`foods/${prato.food}`).then(response => {
+        api.get(`foods/${prato.food}`).then(response => {
             setInfo(response.data[0]);
         })
 
     }, []);
 
-    function handleCount(e){
-
-        e.preventDefault();
-
-        const button = e.target.name;
-
-        if (button === 'minus'){
-            
-            if (count === 1){
-                setCount(1)
-            }else {
-                setCount(count - 1);
-            }
-        }else {
-            if (count === 15) {
-                setCount(15)
-            }else {
-                setCount(count + 1)
-            }
-            
-        }
+    const dispatch = useDispatch();
         
+    function increment(plate) {
+        dispatch(CartActions.updateAmount({
+            ...plate,
+            food: plate.food,
+            qnt: plate.qnt + 1,
+            price: info.price,
+        }));
+    }
+
+    function decrement(plate) {
+        dispatch(CartActions.updateAmount({
+            food: plate.food,
+            qnt: plate.qnt - 1,
+            price: info.price,
+        }));
+    }
+
+    function handleRemoveProduct(plate) {
+        dispatch(CartActions.removeFromCart({...plate, food: plate.id}));
     }
 
     return (
 
         <div className="card">
-            <img src="https://pngimg.com/uploads/burger_sandwich/burger_sandwich_PNG4114.png" alt="imagem prato" />
+            <img src={ info.image === null ? "https://i.pinimg.com/originals/af/7a/c8/af7ac8de430e437391d613ccb52eede3.png" : info.image } alt="imagem prato" />
             <h3>{info.name}</h3>
-            <span>R$ {info.price}</span>
+            <span>{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(prato.price * prato.qnt)}</span>
 
             <div>
-                <button onClick={handleCount} name="minus" className="count minus" >-</button>
-                <p>{count}</p>
-                <button onClick={handleCount} name="plus" className="count plus" >+</button>
+                <button onClick={ () => decrement(prato) }name="minus" className="count minus" >-</button>
+                <p>{prato.qnt}</p>
+                <button onClick={ () => increment(prato) } name="plus" className="count plus" >+</button>
             </div>
 
-            <button type="button">Remover</button>
+            <button type="button" onClick={ () => handleRemoveProduct(prato) }>Remover</button>
         </div>
 
     );
