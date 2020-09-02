@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "base64-to-image": "^1.0.2",
-    "googleapis": "^27.0.0",
+    "googleapis": "^39.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-file-reader": "^1.1.4",
